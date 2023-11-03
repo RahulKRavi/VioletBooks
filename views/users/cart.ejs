@@ -1,0 +1,100 @@
+<%-include('../layouts/header.ejs')%>
+    <%-include('../layouts/user-navbar.ejs')%>
+        <%-include('../layouts/user-info.ejs')%>
+
+
+            <section class="page-add cart-page-add">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="page-breadcrumb">
+                                <h2>Cart<span>.</span></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cart Page Section Begin -->
+            <div class="cart-page">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-lg-9">
+                            <div class="cart-table">
+                                <table>
+                                    <% if(cart.items.length>0) { %>
+                                        <thead>
+                                            <tr>
+                                                <th class="product-h w-50">Product</th>
+                                                <th>Price</th>
+                                                <th class="quan">Quantity</th>
+                                                <th>Total</th>
+                                                <th>Remove</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for (let i=0; i<cart.items.length; i++) { %>
+                                                <tr>
+                                                    <td class="price-col">
+                                                        <h5>
+                                                            <%= cart.items[i].product.title %>
+                                                        </h5>
+                                                    </td>
+                                                    <td class="price-col">₹<%= cart.items[i].product.price %>
+                                                    </td>
+                                                    <td class="quantity-col">
+                                                        <div class="pro-qty">
+                                                            <input type="text" value="<%= cart.items[i].quantity %>">
+                                                        </div>
+                                                    </td>
+                                                    <td class="price-col">₹<%= cart.items[i].price %>
+                                                    </td>
+                                                    <td style="width:13%">
+                                                        <a href="/remove-item?id=<%= cart.items[i]._id %>"
+                                                            class="btn btn-danger">Remove</a>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                        </tbody>
+                                        <% } else { %>
+                                            <p>Your Cart is Empty</p>
+                                            <% } %>
+                                </table>
+                            </div>
+                        </div>
+                        <% if(cart.items.length>0) { %>
+                            <div class="col-lg-3">
+                                <div class="order-table">
+                                    <div class="cart-item">
+                                        <span>Price</span>
+                                        <p>₹<%= cart.total %>
+                                        </p>
+                                    </div>
+                                    <div class="cart-item">
+                                        <span>Discount</span>
+                                        <p>₹<%= cart.discount %></p>
+                                    </div>
+                                    <div class="cart-item">
+                                        <span>Amount To Pay</span>
+                                        <p>₹<%= cart.amount %></p>
+                                    </div>
+                                    <div class="cart-item">
+                                    <form action="/apply-coupon" class="checkout-form" method="post">
+                                            <input type="text" name="couponCode" placeholder="Coupon Code"/>
+                                            <input type="hidden" name="id" value="<%= cart._id %>">
+                                            <input type="submit" class="btn btn-warning mb-2 d-flex justify-content-center" value="Apply" style="width: 214px;">
+                                    </form>
+                                    <a href="/choose-address?id=<%= cart._id %>"
+                                        class="btn btn-dark mb-2 d-flex justify-content-center">Proceed</a>
+                                        <% if (typeof message !=='undefined' ) { %>
+                                            <p style="color:green;">
+                                                <%= message %>
+                                            </p>
+                                            <% } %>
+                                    </div>
+                                <% } %>
+                                </div>
+                            </div>
+                </div>
+            </div>
+            <%-include('../layouts/user-footer.ejs')%>

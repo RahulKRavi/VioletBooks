@@ -1,0 +1,102 @@
+<%-include('../layouts/header.ejs')%>
+
+<style>
+    body {
+      background-color: #ffffff;
+    }
+</style>
+
+<script>
+    function validateForm(){
+        var signupEmail = document.getElementById("signupEmail").value;
+        var signupPhone = document.getElementById("signupPhone").value;
+        var signupPassword = document.getElementById("signupPassword").value;
+        var messageElement = document.getElementById("errorMessage");
+
+        messageElement.innerHTML = "";
+
+        if(!validateEmail(signupEmail)){
+            messageElement.innerHTML = "Please Enter a valid email";
+            return false;
+        }
+        if(!validatePhone(signupPhone)){
+            messageElement.innerHTML = "Phone must be a 10-digit number";
+            return false;
+        }
+        if(signupPassword.length<8){
+            messageElement.innerHTML = "Passwords must be atleaset 8 characters";
+            return false;
+        }
+
+        return true;
+
+    }
+
+    function validateEmail(email){
+        var emailPattern = /^[A-Za-z0-9._%-]+@[A-Za-z0-9._]+\.[A-Za-z]{2,4}$/
+        return emailPattern.test(email)
+    }
+
+    function validatePhone(phone){
+        var phonePattern = /^[0-9]{10}$/;
+        return phonePattern.test(phone)
+    }
+
+
+</script>
+
+<section class="h-100 ">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-4 col-xl-6">
+                <div class="card" style="border-radius: 20px; background-color:#b0bcc2">
+                    <div class="card-body p-2 mx-5">
+                        <h2 class="text-uppercase text-center mt-5"> Create an account </h2>
+                        <form action="/signup" method="post" onsubmit="return validateForm()">
+
+                            <div class="row">
+                                <div class="col-12 col-lg-6 form-outline mt-4">
+                                    <input type="text" name="fname" id="signupFname" placeholder="First name" class="form-control form-control-md" required />
+                                </div>
+                                <div class="col-12 col-lg-6 form-outline mt-4">
+                                    <input type="text" name="lname" id="signupLname" placeholder="Last name" class="form-control form-control-md" required />
+                                </div>
+                            </div>
+
+                            <div class="form-outline mt-3 ">
+                                <input type="email" name="email" id="signupEmail" placeholder="Email address" class="form-control form-control-md" required />
+                            </div>
+
+                            <div class="form-outline mt-3 ">
+                                <input type="text" name="phone" id="signupPhone" placeholder="Phone number" class="form-control form-control-md" required />
+                            </div>
+
+                            <div class="form-outline mt-3 ">
+                                <input type="password" name="password" id="signupPassword" placeholder="Enter Password" class="form-control form-control-md" required />
+                            </div>
+
+                            <div class="form-outline mt-3 ">
+                                <input type="password" name="confirm" id="signupConfirm" placeholder="Confirm Password" class="form-control form-control-md" required />
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-4 ">
+                                <input type="submit" value="REGISTER" class="btn btn-dark px-5">
+                            </div>
+
+                            <p class="text-center text-muted mt-4 mb-5"> Already an account? <a href="/login" class="fw-bold text-body"><u> Login here</u></a></p>
+
+                            <div class="d-flex justify-content-center">
+                                <p style="color: rgb(193, 13, 13)" id="errorMessage">
+                                <%=(typeof message!=='undefined' )?message:""%>
+                                </p>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%include('../layouts/footer.ejs')%>

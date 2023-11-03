@@ -1,0 +1,67 @@
+<%-include('../layouts/header.ejs') %>
+
+<style>
+    body {
+        color: white;
+        background-color: #ffffff;
+    }
+</style>
+
+<script>
+    function checkPasswordStrength() {
+        var password = document.getElementById('password').value;
+        var messageElement = document.getElementById("errorMessage")
+
+        var hasLowercase = /[a-z]/.test(password);
+        var hasUppercase = /[A-Z]/.test(password);
+        var hasDigit = /[0-9]/.test(password);
+        var hasSpecialCharacter = /[^a-zA-Z0-9]/.test(password);
+
+
+        var isValid = hasLowercase && hasUppercase && hasDigit && hasSpecialCharacter;
+
+        messageElement.innerHTML = "";
+
+        if (!isValid) {
+            messageElement.innerHTML = 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character.';
+            return false;
+        }
+
+        return true
+    }
+</script>
+
+<section class="h-100">
+    <div class="container py-3 h-100 ">
+        <div class="row d-flex justify-content-center align-items-center h-100 ">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-6">
+                <div class="card" style="border-radius: 20px; background-color:#b0bcc2">
+                    <div class="card-body p-2 mx-5">
+                        <h4 class="text-uppercase text-center mt-5">RESET YOUR PASSWORD</h4>
+                        <form action="/reset-pw" method="post" onsubmit="return checkPasswordStrength();">
+                            <div class="form-outline form-white mt-4 mx-5">
+                                <input type="password" id="password" name="password" class="form-control form-control-md" placeholder="New Password" required />
+                            </div>
+
+                            <div class="form-outline form-white mt-4 mx-5">
+                                <input type="password" id="confirm" name="confirm" class="form-control form-control-md" placeholder="Confirm Password" required />
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-4 ">
+                                <input type="submit" value="SAVE CHANGES" class="btn btn-dark px-5">
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <p style="color: rgb(193, 13, 13)" id="errorMessage">
+                                    <%=(typeof message!=='undefined' )?message:""%>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                <div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%include('../layouts/footer.ejs')%>

@@ -1,0 +1,54 @@
+<%-include('../layouts/header.ejs')%>
+<%-include('../layouts/user-navbar.ejs')%>
+<%-include('../layouts/user-info.ejs')%>
+
+<!-- Product Page Section Beign -->
+<div class="container-fluid px-5 py-4">
+    <% if (orders.length> 0) { %>
+        <table class="table table-striped w-auto text-wrap mt-2">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Order Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i=0; i < orders.length; i++) { %>
+                    <tr>
+                        <td style="font-size: 12px; width:35% ; vertical-align: middle;">
+                            <img src="/bookImages/<%= orders[i].product.image %>" alt="<%= orders[i].product.image %>" width="80px" height="100px" style="margin-right: 20px; margin-left: 30px;"><%= orders[i].product.title %>
+                        </td>
+                        <td style="font-size: 12px; width:15%; vertical-align: middle;">₹<%= orders[i].product.price %></td>
+                        <td style="font-size: 12px; width:15% ; vertical-align: middle;"><%= orders[i].product.quantity %></td>
+                        <td style="font-size: 12px; width:15% ; vertical-align: middle;"><%= orders[i].orderDate %></td>
+                        <td style="font-size: 12px; width:15% ; vertical-align: middle;">
+                            <% if (orders[i].product.orderStatus==="Pending" ) { %>
+                                <p style="color:rgb(23, 24, 24)"> <b>Pending </b></p>
+                            <% } else if (orders[i].product.orderStatus==="Processed" ){ %>
+                                <p style="color:rgb(82, 198, 237)"><b>Processed</b></p>
+                            <% } else if (orders[i].product.orderStatus==="Shipped" ){ %>
+                                <p style="color:rgb(222, 192, 43)"><b>Shipped</b></p>
+                            <% } else if (orders[i].product.orderStatus==="Delivered" ){ %>
+                                <p style="color:green"><b>Delivered At<br> <%= orders[i].product.deliveryTime %></b></p>
+                            <% } else{ %>
+                                <p style="color:red"><b>Cancelled</b></p>
+                            <% } %>
+                        </td>
+                        <td style="width:15% ; vertical-align: middle;">
+                            <a href="/order-details?orderId=<%= orders[i]._id %>&title=<%= orders[i].product.title %>" class="btn btn-warning">Details</a>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+        </table>
+    <% } else { %>
+        <p>Orders Not found</p>
+    <% } %>
+</div>
+
+
+<%-include ('../layouts/user-footer.ejs')%>

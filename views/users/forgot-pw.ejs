@@ -1,0 +1,56 @@
+<%-include('../layouts/header.ejs') %>
+
+  <style>
+    body {
+      color: white;
+      background-color: #ffffff;
+    }
+  </style>
+
+  <script>
+    function validateForm(){
+        var phone = document.getElementById("loginName").value;
+        var messageElement = document.getElementById("errorMessage")
+
+        messageElement.innerHTML = "";
+
+        if(phone.length !== 10 || isNaN(phone)){
+            messageElement.innerHTML = "Phone must be a 10-digit number.";
+            return false
+        }
+        return true
+    }
+  </script>
+
+  <section class="h-100">
+    <div class="container py-3 h-100 ">
+        <div class="row d-flex justify-content-center align-items-center h-100 ">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-6">
+                <div class="card" style="border-radius: 20px; background-color:#b0bcc2">
+                    <div class="card-body p-2 mx-4">
+                        <h4 class="text-uppercase text-center mt-5">Enter registered phone number</h4>
+
+                        <form action="/forgot-pw" method="post"  onsubmit="return validateForm()";>
+                            <div class="form-outline form-white mt-5 mx-5">
+                                <input type="text" id="loginName" name="phone" class="form-control form-control-md" placeholder="Phone" required />
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-4 ">
+                                <input type="submit" value="RESET PASSWORD" class="btn btn-dark px-5">
+                            </div>
+
+                            <p class="text-center text-muted mt-5 mb-3">Don't have an account? <a href="/signup" class="fw-bold text-body"><u> Create here</u></a><br>
+                            
+                            <div class="d-flex justify-content-center mb-5">
+                                <p style="color: rgb(193, 13, 13)" id="errorMessage"><%=(typeof message!=='undefined' )?message:""%></p>
+                            </div>
+                        </form>
+
+                    </div>
+                <div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <%include('../layouts/footer.ejs')%>

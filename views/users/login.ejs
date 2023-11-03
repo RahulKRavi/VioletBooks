@@ -1,0 +1,73 @@
+<%-include('../layouts/header.ejs') %>
+
+<style>
+    body {
+        color: white;
+        background-color: #ffffff;
+    }
+</style>
+
+<script>
+    function validateForm() {
+        var phone = document.getElementById("loginName").value;
+        var password = document.getElementById("loginPassword").value;
+        var messageElement = document.getElementById("errorMessage");
+
+        // Reset any previous error message
+        messageElement.innerHTML = "";
+
+        if (phone === "" || password === "") {
+            messageElement.innerHTML = "Phone and password are required.";
+            return false;
+        }
+
+        // More specific validation rules
+        if (phone.length !== 10 || isNaN(phone)) {
+            messageElement.innerHTML = "Phone must be a 10-digit number.";
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+<section class="h-100">
+    <div class="container py-3 h-100 ">
+        <div class="row d-flex justify-content-center align-items-center h-100 ">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-6">
+                <div class="card" style="border-radius: 20px; background-color:#b0bcc2">
+                    <div class="card-body p-2 mx-5">
+                        <h2 class="text-uppercase text-center mt-5">Login</h2>
+                        <form action="/login" method="post" onsubmit="return validateForm();">
+                            <div class="form-outline form-white mt-4 mx-5">
+                                <input type="text" id="loginName" name="phone" class="form-control form-control-md" placeholder="Phone" required />
+                            </div>
+
+                            <div class="form-outline form-white mt-4 mx-5">
+                                <input type="password" id="loginPassword" name="password" class="form-control form-control-md" placeholder="Password" required />
+                                <a href="/forgot-pw" class="fw-bold text-body" style="float: right;"> Forgot Password</a>
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-5 ">
+                                <input type="submit" value="LOGIN" class="btn btn-dark px-5">
+                            </div>
+
+                            <p class="text-center text-muted mt-4 mb-4">Don't have an account? 
+                                <a href="/signup" class="fw-bold text-body"><u> Create here</u></a><br>
+                                <a href="/login-otp" class="fw-bold text-body"><u> OTP Login</u></a>                                
+                            </p>
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <p style="color: rgb(193, 13, 13)" id="errorMessage">
+                                    <%=(typeof message!=='undefined' )?message:""%>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                <div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%include('../layouts/footer.ejs')%>

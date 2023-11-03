@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Razorpay Payment</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h1>Payment Details</h1>
+    <p>Order Total: ₹<%= orderTotal %></p>
+    <button id="pay-button">Pay Now</button>
+    <script>
+        
+        // Initialize Razorpay with your key
+        var rzp = new Razorpay({
+            key: "<%= process.env.RAZORPAY_KEY_ID %>",
+            amount: "<%= orderTotal * 100 %>", // Amount in paise (Indian currency)
+            currency: 'INR',
+            name: 'VIOLET BOOKS',
+            description: 'Payment for Order #<%= orderId %>', // Display the order ID
+            order_id: "<%= orderId %>", // Replace with the actual Razorpay order ID
+            prefill: {
+                name: 'User Name',
+                email: 'user@example.com',
+                contact: 'user_phone_number',
+            },
+        });
+        rzp.on('payment.failed', function (response) {
+            console.log('Payment failed:', response.error.code);
+            window.location.href = '/order-failure';
+        });
+
+        rzp.on('payment.success', function (response) {
+            var paymentId = response.razorpay_payment_id;
+            var orderId = response.razorpay_order_id;
+            var redirectUrl = '/order-success?paymentId=' + paymentId + '&orderId=' + orderId;
+            window.location.href = redirectUrl;
+        });
+
+        // Trigger Razorpay payment on button click
+        document.getElementById('pay-button').addEventListener('click', function () {
+            rzp.open();
+        });
+
+    </script>
+</body>
+</html>

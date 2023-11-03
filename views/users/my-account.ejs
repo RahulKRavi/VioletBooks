@@ -1,0 +1,76 @@
+<%-include('../layouts/header.ejs')%>
+<%-include('../layouts/user-navbar.ejs')%>
+<%-include('../layouts/user-info.ejs')%>
+
+<section class="cart-total-page spad">
+    <div class="container mt-5">
+        <form action="/my-account" class="checkout-form" method="post">
+            <div class="row">
+                
+                <div class="col-lg-12">
+                    <h3>Your Information</h3>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-2">
+                                <p class="in-name">Name*</p>
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="text" name="fname" value="<%= user.fname %>">
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="text" name="lname" value="<%= user.lname %>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p class="in-name">Email*</p>
+                        </div>
+                        <div class="col-lg-10">
+                            <input type="text" value="<%= user.email %>" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p class="in-name">Phone</p>
+                        </div>
+                        <div class="col-lg-10">
+                            <input type="text" value="<%= user.phone %>" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="payment-method">
+                                <input type="hidden" name="id" value="<%= user._id %>">
+                                <button type="submit">Update Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="order-table" style="background: #B0BCC2;">
+                        <div class="cart-item">
+                            <h3>You Wallet</h3>
+                            <span>Balance</span>
+                            <p>₹<%= user.wallet %></p>
+                        </div>
+                        <div class="cart-item">
+                            <a href="/wallet-topup?id=<%= user._id %>"  class="btn btn-dark mb-2 d-flex justify-content-center">Add Money To Wallet</a>
+                            <% if (typeof message !=='undefined' ) { %>
+                                <p style="color:green;">
+                                    <%= message %>
+                                </p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<%-include ('../layouts/user-footer.ejs')%>

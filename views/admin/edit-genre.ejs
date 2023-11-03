@@ -1,0 +1,38 @@
+<%-include('../layouts/header.ejs')%>
+    <%-include('../layouts/admin-navbar.ejs')%>
+
+
+        <div class="container-fluid px-5 py-4">
+
+            <h2 class="text-center text-info mb-3">Edit Genre</h2>
+
+            <form action="/admin/edit-genre" method="post">
+
+                <div class="form-outline mb-4">
+                    <input type="text" class="form-control" name="name" placeholder="Genre Name"
+                        value="<%= genres.name %>" required>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <textarea class="form-control" name="about" row="10" placeholder="Enter Description"
+                        required><%= genres.about %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <input type="hidden" name="id" value="<%= genres._id %>">
+                    <input type="submit" class="btn btn-primary" value="Update Genre">
+                    <a class="btn btn-secondary" href="/admin/home">Back to Home</a>
+                </div>
+
+            </form>
+
+            <% if (typeof message !=='undefined' ) { %>
+                <p style="color:red;">
+                    <%= message %>
+                </p>
+                <% } %>
+
+        </div>
+
+
+        <%include('../layouts/footer.ejs')%>

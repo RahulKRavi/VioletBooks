@@ -1,0 +1,108 @@
+<%-include('../layouts/header.ejs')%>
+<%-include('../layouts/user-navbar.ejs')%>
+<%-include('../layouts/user-info.ejs')%>
+
+
+<!-- Product Page Section Beign -->
+<div class="container" style="border-radius: 10px; background-color: #f0f0f0; padding: 20px; margin-top: 40px; margin-bottom: 12px">
+    <div class="footer-widget mx-4 my-4">
+        <div class="row" >
+ 
+            <div class="col-lg-4 col-sm-6" style="display: inline-flex; flex-direction: column; align-items: center;">
+                <div class="single-footer-widget mb-0" style="text-align:center;">
+                    <ul>
+                        <li style="color: black; line-height: 22px; opacity: 1">
+                            <img src="/bookImages/<%= orders[0].product.image %>" alt="<%= orders[0].product.image %>" width="130px" height="180px"><br><br><%= orders[0].product.title %></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-6" style="display: inline-flex; flex-direction: column;  align-items: center;">
+                <div class="single-footer-widget mb-0" style="text-align:left;" >
+                    <ul>
+                        <li style="color: black; margin-top: 12px; opacity: 1">Price</li>
+                        <li style="color: black; line-height: 22px"><%= orders[0].product.price%></li>
+                        <li style="color: black; margin-top: 12px; opacity: 1">Quantity</li>
+                        <li style="color: black; line-height: 22px"><%= orders[0].product.quantity %>
+                    </ul>
+                </div>
+            </div>    
+
+            <div class="col-lg-4 col-sm-6" style="display: inline-flex; flex-direction: column;  align-items: center;">
+                <div class="single-footer-widget mb-0" style="text-align:left;" >
+                    <ul>
+                        <li style="color: black; margin-top: 12px; opacity: 1"><b>Order Status</b></li>
+                        <li style="color: black; line-height: 22px"><b>Orderd At <%= orders[0].orderDate %></b></li>
+                        <li style="color: black; margin-top: 12px; opacity: 1"><b>Delivery Status</b></li>
+                        <li style="color: black; line-height: 22px">
+                            <% if (orders[0].product.orderStatus==="Pending" ) { %>
+                                <p style="color:rgb(23, 24, 24)"><b> Pending </b></p>
+                            <% } else if (orders[0].product.orderStatus==="Processed" ){ %>
+                                <p style="color:rgb(82, 198, 237)"><b>Processed</b></p>
+                            <% } else if (orders[0].product.orderStatus==="Shipped" ){ %>
+                                <p style="color:rgb(222, 192, 43)"><b>Shipped</b></p>
+                            <% } else if (orders[0].product.orderStatus==="Delivered" ){ %>
+                                <p style="color:green"><b>Delivered At <%= orders[0].product.deliveryTime %></b></p>
+                            <% } else{ %>
+                                <p style="color:red">Cancelled</p>
+                            <% } %>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container" style="border-radius: 10px; background-color: #f0f0f0; padding: 20px; margin-top: 40px; margin-bottom: 12px">
+    <div class="footer-widget mx-4 my-4">
+        <div class="row" >
+
+            <div class="col-lg-4 col-sm-6" style="display: inline-flex; flex-direction: column;  align-items: center;">
+                <div class="single-footer-widget mb-0" style="text-align:left;" >
+                    <h4 style="color: black; margin-bottom: 12px;">Shipping Address</h4>
+                    <ul>
+                        <li style="color: black; line-height: 22px"><%= orders[0].address.fname %><%= orders[0].address.lname %></li>
+                        <li style="color: black; line-height: 22px"><%= orders[0].address.house %>, <%= orders[0].address.street %></li>
+                        <li style="color: black; line-height: 22px"><%= orders[0].address.city%></li>
+                        <li style="color: black; line-height: 22px">PIN: <%= orders[0].address.pin %></li>
+                        <li style="color: black; line-height: 22px"><%= orders[0].address.district %></li>
+                        <li style="color: black; line-height: 22px">CONTACT: <%= orders[0].address.phone %></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-6" style="display: inline-flex; flex-direction: column;  align-items: center;">
+                <div class="single-footer-widget mb-0" style="text-align:left;" >
+                    <h4 style="color: black; margin-bottom: 12px;">Payment Method</h4>
+                    <ul>
+                        <li style="color: black; line-height: 22px"><%= orders[0].paymentMethod %></li>
+                        <li style="color: black; line-height: 22px">Payment <%= orders[0].paymentStatus %></li>
+                        <li style="color: black; line-height: 22px"><%= orders[0].paymentId %></li>
+                    </ul>
+                </div>
+            </div>   
+
+            <div class="col-lg-4 col-sm-6" style="display: inline-flex; flex-direction: column;  align-items: center;">
+                <div class="single-footer-widget mb-0" style="text-align:left;" >
+                    <h4 style="color: black; margin-bottom: 12px;">More Actions</h4>
+                    <ul>
+                        <% if (orders[0].product.orderStatus!=="Cancelled" && orders[0].product.orderStatus!=="Delivered" ) { %>
+                            <a href="/cancel-order?orderId=<%= orders[0]._id %>&title=<%= orders[0].product.title %>" class="btn btn-danger">Cancel Order</a>
+                        <% } else if (orders[0].product.orderStatus==="Delivered" ){ %>
+                            <a href="/download-invoice?orderId=<%= orders[0]._id %>&title=<%= orders[0].product.title %>" class="btn btn-primary">Download Invoice</a>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<%-include('../layouts/user-footer.ejs')%>

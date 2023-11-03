@@ -1,0 +1,42 @@
+<%-include('../layouts/header.ejs')%>
+    <%-include('../layouts/admin-navbar.ejs')%>
+
+
+        <div class="container-fluid px-5 py-4">
+
+            <h2 class="text-center text-info mb-3">Edit Author</h2>
+
+            <form action="/admin/edit-author" method="post">
+
+                <div class="form-outline mb-4">
+                    <input type="text" class="form-control" name="name" placeholder="Author Name"
+                        value="<%= authors.name %>" required>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="text" class="form-control" name="nationality" placeholder="Nationality"
+                        value="<%= authors.nationality %>" required>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <textarea class="form-control" name="about" placeholder="Enter Description" row="5"
+                        required><%= authors.about %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <input type="hidden" name="id" value="<%= authors._id %>">
+                    <input type="submit" class="btn btn-primary" value="Update Author">
+                    <a class="btn btn-secondary" href="/admin/home">Back to Home</a>
+                </div>
+
+            </form>
+
+            <% if (typeof message !=='undefined' ) { %>
+                <p style="color:red;">
+                    <%= message %>
+                </p>
+                <% } %>
+
+        </div>
+
+        <%include('../layouts/footer.ejs')%>

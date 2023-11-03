@@ -1,0 +1,117 @@
+<%-include('../layouts/header.ejs')%>
+<%-include('../layouts/user-navbar.ejs')%>
+<%-include('../layouts/user-info.ejs')%>
+
+<!-- Product Page Section Beign -->
+<section class="product-page">
+    <div class="container mb-5">
+        <form action = "/view-book" method = "post">
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="product-img mx-5 my-4 px-5 py-4">
+                        <figure>
+                            <img src="/bookImages/<%= books.image %>" alt="<%= books.image %>" width="50px" height="450px">
+                        </figure>
+                    </div>    
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="product-content">
+                        <h2><%= books.title %></h2>
+                        <div class="pc-meta">
+                            <h5>Rs.<%= books.price %></h5>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </div>
+                        <p><%= books.about %></p>
+                        <ul class="tags">
+                            <li><span>Author :</span> <%= books.author.name %></li>
+                            <li><span>Genre :</span> <%= books.genre.name %></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="payment-method pb-5 px-5">
+                <button type="submit">Add To Cart</button>
+            </div>
+
+            <input type="hidden" name="book_id" value="<%= books._id %>">
+            
+        </form>
+    </div>
+</section>
+<!-- Product Page Section End -->
+
+<!-- Related Product Section Begin -->
+<!-- <section class="related-product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-title">
+                    <h2>Related Products</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-product-item">
+                    <figure>
+                        <a href="#"><img src="img/products/img-1.jpg" alt=""></a>
+                        <div class="p-status">new</div>
+                    </figure>
+                    <div class="product-text">
+                        <h6>Green Dress with details</h6>
+                        <p>$22.90</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-product-item">
+                    <figure>
+                        <a href="#"><img src="img/products/img-2.jpg" alt=""></a>
+                        <div class="p-status sale">sale</div>
+                    </figure>
+                    <div class="product-text">
+                        <h6>Yellow Maxi Dress</h6>
+                        <p>$25.90</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-product-item">
+                    <figure>
+                        <a href="#"><img src="img/products/img-3.jpg" alt=""></a>
+                        <div class="p-status">new</div>
+                    </figure>
+                    <div class="product-text">
+                        <h6>One piece bodysuit</h6>
+                        <p>$19.90</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-product-item">
+                    <figure>
+                        <a href="#"><img src="img/products/img-4.jpg" alt=""></a>
+                        <div class="p-status popular">popular</div>
+                    </figure>
+                    <div class="product-text">
+                        <h6>Blue Dress with details</h6>
+                        <p>$35.50</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+
+<%-include ('../layouts/user-footer.ejs')%>

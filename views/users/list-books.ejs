@@ -1,0 +1,75 @@
+<%-include('../layouts/header.ejs')%>
+  <%-include('../layouts/user-navbar.ejs')%>
+    <%-include('../layouts/user-info.ejs')%>
+
+
+
+
+
+
+
+      <section class="latest-products spad">
+        <div class="container">
+          <div class="product-filter">
+            <div class="row">
+              <div class="col-lg-12 text-center">
+                <div class="section-title">
+                  <h2>Explore Our Top Collection</h2>
+                </div>
+                <ul class="product-controls">
+                  <li data-filter="*">All</li>
+                  <li data-filter="#">Just Released</li>
+                  <li data-filter="#">Trending This Week</li>
+                  <li data-filter="#">Best Sellers</li>
+                  <li data-filter="#">Coming Soon</li>
+                </ul>
+              </div>
+            </div>
+            <form>
+            <div class="row mt-2">
+              <div class="col-12 col-lg-12 input-group">
+                <input type="text" class="form-control" placeholder="Search Book" name="search">
+                <div class="input-group-append">
+                    <input type="submit" class="btn btn-primary" value="Search">
+                </div>
+              </div>
+            </div>
+            </form>
+          </div>
+          <% if (books.length> 0) { %>
+            <div class="row mt-2" id="product-list">
+              <% for (let i=0; i < books.length; i++) { %>
+                <div class="col-lg-2 col-sm-4 ">
+                  <div class="single-product-item">
+                    <figure>
+                      <a href="/view-book?id=<%= books[i]._id %>"><img src="/bookImages/<%= books[i].image %>"
+                          alt="<%= books[i].image %>" width="70px" height="230px"></a>
+                    </figure>
+                    <div class="product-text" style="font-size: 12px">
+                      <%= books[i].title %><br>
+                        ₹<%= books[i].price %>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+            </div>
+            <% } else { %>
+              <p>Book Not found</p>
+              <% } %>
+              <div class="pagination">
+                <% if (totalPages > 1) { %>
+                  <ul>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                      <li class="<%= i === currentPage ? 'active' : '' %>">
+                        <a href="?page=<%= i %>"><%= i %></a>
+                      </li>
+                    <% } %>
+                  </ul>
+                <% } %>
+              </div>
+        </div>
+      </section>
+
+
+
+      <%-include ('../layouts/user-footer.ejs')%>
