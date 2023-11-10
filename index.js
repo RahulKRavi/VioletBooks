@@ -1,15 +1,18 @@
-const mongoose = require('mongoose')
-mongoose.connect("mongodb://127.0.0.1:27017/odyssey")
+const dotenv = require('dotenv');
+dotenv.config();
 
-const express = require('express')
-const app = express()
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const userRoute = require('./routes/userRoute')
-app.use('/', userRoute)
+const express = require('express');
+const app = express();
 
-const adminRoute = require('./routes/adminRoute')
-app.use('/admin', adminRoute)
+const userRoute = require('./routes/userRoute');
+app.use('/', userRoute);
+
+const adminRoute = require('./routes/adminRoute');
+app.use('/admin', adminRoute);
 
 app.listen(3000, function(){
-    console.log("Server is Started")
-})
+    console.log("Server is Started");
+});

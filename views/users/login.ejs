@@ -38,6 +38,7 @@
                 <div class="card" style="border-radius: 20px; background-color:#b0bcc2">
                     <div class="card-body p-2 mx-5">
                         <h2 class="text-uppercase text-center mt-5">Login</h2>
+
                         <form action="/login" method="post" onsubmit="return validateForm();">
                             <div class="form-outline form-white mt-4 mx-5">
                                 <input type="text" id="loginName" name="phone" class="form-control form-control-md" placeholder="Phone" required />
@@ -45,7 +46,7 @@
 
                             <div class="form-outline form-white mt-4 mx-5">
                                 <input type="password" id="loginPassword" name="password" class="form-control form-control-md" placeholder="Password" required />
-                                <a href="/forgot-pw" class="fw-bold text-body" style="float: right;"> Forgot Password</a>
+                                <a href="/forgot-pw" class="fw-bold text-body mt-2" style="float: right;"> Forgot Password</a>
                             </div>
 
                             <div class="d-flex justify-content-center mt-5 ">
@@ -58,11 +59,12 @@
                             </p>
 
                             <div class="d-flex justify-content-center mt-4">
-                                <p style="color: rgb(193, 13, 13)" id="errorMessage">
+                                <p style="color: rgb(253, 4, 4); font-weight: bold; " id="errorMessage">
                                     <%=(typeof message!=='undefined' )?message:""%>
                                 </p>
                             </div>
                         </form>
+                        
                     </div>
                 <div>
             </div>

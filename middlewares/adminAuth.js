@@ -1,26 +1,23 @@
 const isLogin = async( req, res, next)=>{
-    try{
-        if(req.session.admin_id){
+    try {
+        if (req.session.admin_id) {
 
-        }
-        else{
+        } else {
             res.redirect('/admin')
         }
         next()
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message)
     }
 }
 
 const isLogout = async( req, res, next)=>{
-    try{
-        if(req.session.admin_id){
+    try {
+        if (req.session.admin_id) {
             res.redirect('/admin/home')
         }
         next()
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message)
     }
 }

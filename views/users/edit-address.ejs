@@ -1,151 +1,148 @@
 <%-include('../layouts/header.ejs')%>
-    <%-include('../layouts/user-navbar.ejs')%>
-        <%-include('../layouts/user-info.ejs')%>
+<%-include('../layouts/user-navbar.ejs')%>
+<%-include('../layouts/user-info.ejs')%>
 
-
-            <section class="cart-total-page spad">
-                <div class="container mt-5">
-                    <form action="/edit-address" class="checkout-form" method="post" onsubmit="return validateForm()">
-
-                        <div class="row">
-
-                            <div class="col-lg-12">
-                                <h3>Edit Address</h3>
-                            </div>
-
-                            <div class="col-lg-9">
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <input type="text" name="title" placeholder="Address Title (Eg:Home,Work)" value="<%= address.title %>"
-                                            required />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <input type="text" name="fname" placeholder="First Name" value="<%= address.fname %>" required />
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="lname" placeholder="Last Name" value="<%= address.lname %>" required />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <input type="text" name="house" placeholder="House Name/No" value="<%= address.house %>" required />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <input type="text" name="street" placeholder="Road/Street" value="<%= address.street %>" required />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <input type="text" name="city" placeholder="City" value="<%= address.city %>" required />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <input type="text" name="pin" placeholder="PIN" value="<%= address.pin %>" required />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <input type="text" name="district" placeholder="District" value="<%= address.district %>" required />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <input type="text" name="phone" placeholder="Contact Number" value="<%= address.phone %>" required />
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="payment-method">
-                                    <div class="payment-method">
-                                        <input type="hidden" name="id" value="<%= address._id %>">
-                                        <button type="submit">Update Address</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
+<section class="cart-total-page spad">
+    <div class="container mt-5">
+        <form action="/edit-address" class="checkout-form" method="post" onsubmit="return validateForm()">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Edit Address</h3>
                 </div>
-            </section>
+                <div class="col-lg-9">
 
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input type="text" name="title" placeholder="Address Title (Eg:Home,Work)" value="<%= address.title %>" required />
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <input type="text" name="fname" placeholder="First Name" value="<%= address.fname %>" required />
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="text" name="lname" placeholder="Last Name" value="<%= address.lname %>" required />
+                        </div>
+                    </div>
 
-            <script>
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input type="text" name="house" placeholder="House Name/No" value="<%= address.house %>" required />
+                        </div>
+                    </div>
 
-                function validateForm() {
-                    const title = document.getElementsByName("title")[0].value;
-                    const fname = document.getElementsByName("fname")[0].value;
-                    const lname = document.getElementsByName("lname")[0].value;
-                    const house = document.getElementsByName("house")[0].value;
-                    const street = document.getElementsByName("street")[0].value;
-                    const city = document.getElementsByName("city")[0].value;
-                    const pin = document.getElementsByName("pin")[0].value;
-                    const district = document.getElementsByName("district")[0].value;
-                    const phone = document.getElementsByName("phone")[0].value;
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input type="text" name="street" placeholder="Road/Street" value="<%= address.street %>" required />
+                        </div>
+                    </div>
 
-                    if (title.trim() === "") {
-                        alert("Please enter an Address Title.");
-                        return false;
-                    }
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input type="text" name="city" placeholder="City" value="<%= address.city %>" required />
+                        </div>
+                    </div>
 
-                    if (fname.trim() === "") {
-                        alert("Please enter your First Name.");
-                        return false;
-                    }
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input type="text" name="pin" placeholder="PIN" value="<%= address.pin %>" required />
+                        </div>
+                    </div>
 
-                    if (lname.trim() === "") {
-                        alert("Please enter your Last Name.");
-                        return false;
-                    }
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input type="text" name="district" placeholder="District" value="<%= address.district %>" required />
+                        </div>
+                    </div>
 
-                    if (house.trim() === "") {
-                        alert("Please enter your House Name/No.");
-                        return false;
-                    }
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input type="text" name="phone" placeholder="Contact Number" value="<%= address.phone %>" required />
+                        </div>
+                    </div>
 
-                    if (street.trim() === "") {
-                        alert("Please enter your Road/Street.");
-                        return false;
-                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="payment-method">
+                        <div class="payment-method">
+                            <input type="hidden" name="id" value="<%= address._id %>">
+                            <button type="submit">Update Address</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 
-                    if (city.trim() === "") {
-                        alert("Please enter your City.");
-                        return false;
-                    }
+<script>
+    function validateForm() {
+        const title = document.getElementsByName("title")[0].value;
+        const fname = document.getElementsByName("fname")[0].value;
+        const lname = document.getElementsByName("lname")[0].value;
+        const house = document.getElementsByName("house")[0].value;
+        const street = document.getElementsByName("street")[0].value;
+        const city = document.getElementsByName("city")[0].value;
+        const pin = document.getElementsByName("pin")[0].value;
+        const district = document.getElementsByName("district")[0].value;
+        const phone = document.getElementsByName("phone")[0].value;
 
-                    if (pin.trim() === "") {
-                        alert("Please enter your PIN.");
-                        return false;
-                    }
+        if (title.trim() === "") {
+            alert("Please enter an Address Title.");
+            return false;
+        }
 
-                    if (isNaN(pin) || pin.length !== 6) {
-                        alert("PIN must be a 6-digit number.");
-                        return false;
-                    }
+        if (fname.trim() === "") {
+            alert("Please enter your First Name.");
+            return false;
+        }
 
-                    if (district.trim() === "") {
-                        alert("Please enter your District.");
-                        return false;
-                    }
+        if (lname.trim() === "") {
+            alert("Please enter your Last Name.");
+            return false;
+        }
 
-                    if (isNaN(phone) || phone.length !== 10) {
-                        alert("Contact Number must be a 10-digit number.");
-                        return false;
-                    }
+        if (house.trim() === "") {
+            alert("Please enter your House Name/No.");
+            return false;
+        }
 
-                    return true;
-                }
+        if (street.trim() === "") {
+            alert("Please enter your Road/Street.");
+            return false;
+        }
 
-            </script>
+        if (city.trim() === "") {
+            alert("Please enter your City.");
+            return false;
+        }
 
+        if (pin.trim() === "") {
+            alert("Please enter your PIN.");
+            return false;
+        }
 
-            <%-include ('../layouts/user-footer.ejs')%>
+        if (isNaN(pin) || pin.length !== 6) {
+            alert("PIN must be a 6-digit number.");
+            return false;
+        }
+
+        if (district.trim() === "") {
+            alert("Please enter your District.");
+            return false;
+        }
+
+        if (isNaN(phone) || phone.length !== 10) {
+            alert("Contact Number must be a 10-digit number.");
+            return false;
+        }
+
+        return true;
+
+    }
+</script>
+
+<%-include ('../layouts/user-footer.ejs')%>

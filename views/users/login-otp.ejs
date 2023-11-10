@@ -1,13 +1,13 @@
 <%-include('../layouts/header.ejs') %>
 
-  <style>
+<style>
     body {
-      color: white;
-      background-color: #ffffff;
+        color: white;
+        background-color: #ffffff;
     }
-  </style>
+</style>
 
-  <script>
+<script>
     function validateForm(){
         var phone = document.getElementById("loginName").value;
         var errorMessage = document.getElementById("errorMessage")
@@ -16,11 +16,13 @@
             errorMessage.innerHTML = "Phone must be a 10-digit number.";
             return false
         }
-        return true
-    }
-  </script>
 
-  <section class="h-100">
+        return true
+
+    }
+</script>
+
+<section class="h-100">
     <div class="container py-3 h-100 ">
         <div class="row d-flex justify-content-center align-items-center h-100 ">
             <div class="col-12 col-md-6 col-lg-4 col-xl-6">
@@ -41,7 +43,9 @@
                             <a href="/login" class="fw-bold text-body"><u> Password Login</u></a></p>
                             
                             <div class="d-flex justify-content-center mb-5">
-                                <p style="color: rgb(193, 13, 13)" id="errorMessage"><%=(typeof message!=='undefined' )?message:""%></p>
+                                <p style="color: rgb(253, 4, 4); font-weight: bold; " id="errorMessage">
+                                    <%=(typeof message!=='undefined' )?message:""%>
+                                </p>
                             </div>
                         </form>
 
@@ -50,6 +54,6 @@
             </div>
         </div>
     </div>
-  </section>
+</section>
 
-  <%include('../layouts/footer.ejs')%>
+<%include('../layouts/footer.ejs')%>

@@ -17,11 +17,35 @@ const loadListGenresForAdmin = async (req, res) => {
                 { name: { $regex: '.*' + search + '.*' } }
             ];
         }
-        const genreData = await Genre.find(query);
-        res.render('list-genres', { genres: genreData });
-    } 
-    catch (error) {
+        const page = req.query.page || 1;
+        const perPage = req.query.perPage || 5;
+        const startIndex = (page - 1) * perPage;
+
+        // Sorting
+        const sortField = req.query.sortField || 'title'; // Default sorting field
+        const sortOrder = req.query.sortOrder || 1; // Default sorting order (1 for ascending, -1 for descending)
+    
+        // Create the sort object
+        const sort = {};
+        sort[sortField] = sortOrder;
+
+
+        const totalGenres = await Genre.countDocuments({isDeleted:0})
+        const allGenres = await Genre.find(query);
+        const displayPagination = allGenres.length > perPage;
+        const genres = await Genre.find(query)
+            .sort(sort)
+            .skip(startIndex)
+            .limit(perPage)
+        res.render('list-genres',{ 
+            genres, 
+            currentPage:parseInt(page), 
+            totalPages: Math.ceil(totalGenres/perPage),
+            displayPagination
+        })
+    } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 };
 
@@ -30,6 +54,7 @@ const loadAddGenre = async (req,res)=>{
         res.render('add-genre')  
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
@@ -47,14 +72,14 @@ const addGenre = async(req,res)=>{
             about: req.body.about
         })
         const genreData = await newGenre.save()
-        if(genreData){
+        if (genreData) {
             res.redirect('/admin/list-genres')
-        }
-        else{
+        } else {
             res.render('add-genre', {message:'Unable to add New Genre'})
         }
     } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 }
 
@@ -64,12 +89,12 @@ const loadEditGenre = async (req,res)=>{
         const genreData = await Genre.findById({_id:id})
         if(genreData){
             res.render('edit-genre', {genres:genreData})
-        }
-        else{
+        } else {
             res.redirect('/admin/list-genres')
         }
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
@@ -87,6 +112,7 @@ const editGenre = async(req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -105,7 +131,7 @@ const reactivateGenre = async(req,res)=>{
 
 
 const loadViewGenre = async(req, res)=>{
-    try{
+    try {
         const id = req.query.id;
         const selectedGenre = await Genre.findById(id)
 
@@ -114,13 +140,12 @@ const loadViewGenre = async(req, res)=>{
         if(selectedGenre){
             const books = await Book.find({ genre: selectedGenre._id }).populate('genre');
             res.render('view-genre', {genres, selectedGenre, books})
-        }
-        else{
+        } else {
             res.render('/list-genres')
         }
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 

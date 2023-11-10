@@ -1,48 +1,41 @@
 <%-include('../layouts/header.ejs')%>
-  <%-include('../layouts/user-navbar.ejs')%>
-    <%-include('../layouts/user-info.ejs')%>
+<%-include('../layouts/user-navbar.ejs')%>
+<%-include('../layouts/user-info.ejs')%>
 
-
-
-      <section class="latest-products spad">
-        <div class="container">
-          <div class="product-filter">
+<section class="latest-products spad">
+    <div class="container">
+        <div class="product-filter">
             <div class="row">
-              <div class="col-lg-12 text-center">
-                <div class="section-title">
-                  <h2>
-                    <%= selectedGenre.name %>
-                  </h2>
-                </div>
-                <p>
-                  <%= selectedGenre.about %>
-                </p>
-              </div>
-            </div>
-          </div>
-          <% if (books.length> 0) { %>
-            <div class="row" id="product-list">
-              <% for (let i=0; i < books.length; i++) { %>
-                <div class="col-lg-2 col-sm-4 pt-3">
-                  <div class="single-product-item">
-                    <figure>
-                      <a href="/view-book?id=<%= books[i]._id %>"><img src="/bookImages/<%= books[i].image %>"
-                          alt="<%= books[i].image %>" width="70px" height="230px"></a>
-                    </figure>
-                    <div class="product-text" style="font-size: 12px">
-                      <%= books[i].title %><br>
-                        ₹<%= books[i].price %>
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h2><%= selectedGenre.name %></h2>
                     </div>
-                  </div>
+                    <p><%= selectedGenre.about %></p>
                 </div>
+            </div>
+        </div>
+        <% if (books.length> 0) { %>
+            <div class="row" id="product-list">
+                <% for (let i=0; i < books.length; i++) { %>
+                    <div class="col-lg-2 col-sm-4 pt-3">
+                        <div class="single-product-item">
+                            <figure>
+                                <a href="/view-book?id=<%= books[i]._id %>">
+                                    <img src="/bookImages/<%= books[i].image %>"alt="<%= books[i].image %>" width="70px" height="230px">
+                                </a>
+                            </figure>
+                            <div class="product-text" style="font-size: 12px">
+                                <%= books[i].title %><br>
+                                ₹<%= books[i].price %>
+                            </div>
+                        </div>
+                    </div>
                 <% } %>
             </div>
-            <% } else { %>
-              <p>Book Not found</p>
-              <% } %>
-        </div>
-      </section>
+        <% } else { %>
+            <p>Book Not found</p>
+        <% } %>
+    </div>
+</section>
 
-
-
-      <%-include ('../layouts/user-footer.ejs')%>
+<%-include ('../layouts/user-footer.ejs')%>

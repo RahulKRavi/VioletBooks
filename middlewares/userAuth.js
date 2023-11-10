@@ -3,9 +3,9 @@ const { User } = require('../models/userModel')
 
 const isLogin = async (req, res, next) => {
     try {
-        if(req.session.user_id) {
+        if (req.session.user_id) {
             const user = await User.findById(req.session.user_id);
-            if(user && user.is_blocked === 0) {
+            if (user && user.is_blocked === 0) {
                 next();
             } else {
 
@@ -22,7 +22,7 @@ const isLogin = async (req, res, next) => {
 
 const isLogout = async( req, res, next)=>{
     try {
-        if(req.session.user_id){
+        if (req.session.user_id) {
             res.redirect('/home')
         }
         next()

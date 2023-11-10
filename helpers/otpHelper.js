@@ -7,19 +7,21 @@ const TWILIO_PHONE_NUMBER = "+16562162811";
 const client = twilio(TWILIO_SID, TWILIO_AUTH_TOKEN);
 
 const sendOTP = async (phoneNumber,res) => {
-  try {
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const message = `Your OTP is: ${otp}`;
+    try {
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const message = `Your OTP is: ${otp}`;
 
-    await client.messages.create({
-      body: message,
-      from: TWILIO_PHONE_NUMBER,
-      to: '+91'+phoneNumber
-    });
-    return otp
-  } catch (error) {
-    console.log(error.message)
-  }
+        await client.messages.create({
+            body: message,
+            from: TWILIO_PHONE_NUMBER,
+            to: '+91'+phoneNumber
+        });
+
+        return otp
+
+    } catch (error) {
+        console.log(error.message)
+    }
 };
 
 const checkOTP = (otp, expectedToken) => {

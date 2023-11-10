@@ -1,94 +1,87 @@
 <%- include('../layouts/header.ejs') %>
-    <%-include('../layouts/admin-navbar.ejs')%>
+<%-include('../layouts/admin-navbar.ejs')%>
 
-
-        <div class="container-fluid px-5 py-4">
-            <h2 class="text-center text-info mb-3">Book Management</h2>
-            <form class="mb-3">  
-                <div class="row">
-                    <div class="col-12 col-lg-6 input-group">
-                        <input type="text" class="form-control" placeholder="Search Book" name="search">
-                        <div class="input-group-append">
-                            <input type="submit" class="btn btn-primary" value="Search">
-                        </div>
+<div class="container-fluid px-5 py-4">
+    <h2 class="text-center text-info mb-3">Book Management</h2>
+        <form class="mb-3">  
+            <div class="row">
+                <div class="col-12 col-lg-6 input-group">
+                    <input type="text" class="form-control" placeholder="Search Book" name="search">
+                    <div class="input-group-append">
+                        <input type="submit" class="btn btn-primary" value="Search">
                     </div>
-                    <div class="col-12 col-lg-6 text-right">
-                        <a href="/admin/add-book" class="btn btn-primary">Add New Book</a>
-                    </div>  
                 </div>
-            </form>
+                <div class="col-12 col-lg-6 text-right">
+                    <a href="/admin/add-book" class="btn btn-primary">Add New Book</a>
+                </div>  
+            </div>
+        </form>
 
-            <% if (books.length> 0) { %>
-                <table class="table table-striped w-auto text-wrap mt-2">
-                    <thead>
+        <% if (books.length> 0) { %>
+            <table class="table table-striped w-auto text-wrap mt-2">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Stock</th>                            <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let i=0; i < books.length; i++) { %>
                         <tr>
-                            <th>Book Title</th>
-                            <th>Author</th>
-                            <th>Genre</th>
-                            <th>Description</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <td><%= books[i].title %></td>
+                            <td><%= books[i].author.name %></td>
+                            <td><%= books[i].genre.name %></td>
+                            <td class='w-25' style="font-size: 12px"><%= books[i].about %></td>
+                            <td><img src="/bookImages/<%= books[i].image %>" alt="<%= books[i].image %>" width="80px" height="100px"></td>
+                            <td>₹<%= books[i].price %></td>
+                            <td>
+                                <% if (books[i].stock==0) { %>
+                                    <p> Out Of Stock </p>
+                                <% } else { %>
+                                    <p> <%= books[i].stock %> </p>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (books[i].isDeleted==0) { %>
+                                    <p> Active </p>
+                                <% } else { %>
+                                    <p> Deactive </p>
+                                <% } %>
+                            </td>
+                            <td style="width:13%">
+                                <a href="/admin/edit-book?id=<%= books[i]._id %>" class="btn btn-primary">Edit</a>
+                                <% if (books[i].isDeleted==0) { %>
+                                    <a href="/admin/deactivate-book?id=<%= books[i]._id %>" class="btn btn-danger">Delete</a>
+                                <% } else { %>
+                                    <a href="/admin/reactivate-book?id=<%= books[i]._id %>" class="btn btn-success">Reactive</a>
+                                <% } %>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <% for (let i=0; i < books.length; i++) { %>
-                            <tr>
-                                <td>
-                                    <%= books[i].title %>
-                                </td>
-                                <td>
-                                    <%= books[i].author.name %>
-                                </td>
-                                <td>
-                                    <%= books[i].genre.name %>
-                                </td>
-                                <td class='w-25' style="font-size: 12px">
-                                    <%= books[i].about %>
-                                </td>
-                                <td>
-                                    <img src="/bookImages/<%= books[i].image %>" alt="<%= books[i].image %>"
-                                        width="80px" height="100px">
-                                </td>
-                                <td>
-                                    ₹<%= books[i].price %>
-                                </td>
-                                <td>
-                                    <% if (books[i].stock==0) { %>
-                                        <p> Out Of Stock </p>
-                                        <% } else { %>
-                                            <p>
-                                                <%= books[i].stock %>
-                                            </p>
-                                            <% } %>
-                                </td>
-                                <td>
-                                    <% if (books[i].isDeleted==0) { %>
-                                        <p> Active </p>
-                                        <% } else { %>
-                                            <p>Deactive</p>
-                                            <% } %>
-                                </td>
-                                <td style="width:13%">
-                                    <a href="/admin/edit-book?id=<%= books[i]._id %>" class="btn btn-primary">Edit</a>
-                                    <% if (books[i].isDeleted==0) { %>
-                                        <a href="/admin/deactivate-book?id=<%= books[i]._id %>"
-                                            class="btn btn-danger">Delete</a>
-                                        <% } else { %>
-                                            <a href="/admin/reactivate-book?id=<%= books[i]._id %>"
-                                                class="btn btn-success">Reactive</a>
-                                            <% } %>
-                                </td>
-                            </tr>
-                            <% } %>
-                    </tbody>
-                </table>
-                <% } else { %>
-                    <p>Book Not found</p>
                     <% } %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>Book Not found</p>
+        <% } %>
+        <% if (displayPagination && totalPages > 1) { %>
+            <div class="pagination">
+                <% if (totalPages > 1) { %>
+                  <ul>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                      <li class="<%= i === currentPage ? 'active' : '' %>">
+                        <a href="?page=<%= i %>"><%= i %></a>
+                      </li>
+                    <% } %>
+                  </ul>
+                <% } %>
+            </div>
+        <% } %>
+</div>
 
-        </div>
-
-        <% include("../layouts/footer.ejs")%>
+<% include("../layouts/footer.ejs")%>

@@ -1,20 +1,19 @@
 const { User } = require('../models/userModel')
-const { Book } = require('../models/bookModel'); 
+const { Book } = require('../models/bookModel')
 const Order = require('../models/orderModel')
 const bcrypt = require('bcryptjs')
 
 
 const loadLogin = async(req, res)=>{
-    try{
+    try {
         res.render('login')
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message)
     }
 }
 
 const verifyLogin = async(req, res)=>{
-    try{
+    try {
         const inputEmail = req.body.email
         const inputPassword = req.body.password
         const userData = await User.findOne({email: inputEmail})
@@ -36,14 +35,13 @@ const verifyLogin = async(req, res)=>{
         else{
             res.render('login', {message: "The email address you entered is not registered"})
         }
-    }
-    catch(error){
+    } catch (error) {
         console.log(error.message)
     }
 }
 
 const loadHome = async(req, res)=>{
-    try{
+    try {
         const bestSellingBooks = await Book.find({ isDeleted: 0 })
             .sort({ totalSales: -1 })
             .limit(5);
@@ -70,6 +68,7 @@ const loadHome = async(req, res)=>{
         ])
 
 
+
         const booksTotal = await Order.aggregate([
             {
                 $unwind: '$product',
@@ -77,10 +76,12 @@ const loadHome = async(req, res)=>{
             {
                 $group: {
                     _id: null,
-                    booksSoldOverall: { $sum: '$product.quantity' },
+                    booksSoldTotal: { $sum: '$product.quantity' },
                 },
             },
         ])
+
+
 
         const revenueToday = await Order.aggregate([
             {
@@ -96,10 +97,12 @@ const loadHome = async(req, res)=>{
             {
                 $group: {
                     _id: null,
-                    revenueToday: { $sum: '$orderTotal' },
+                    revenueToday: { $sum: '$totalPrice' },
                 },
             },
         ])
+
+
 
         const revenueTotal = await Order.aggregate([
             {
@@ -108,20 +111,20 @@ const loadHome = async(req, res)=>{
             {
                 $group: {
                     _id: null,
-                    revenueTotal: { $sum: '$orderTotal' },
+                    revenueTotal: { $sum: '$totalPrice' },
                 },
             },
         ])
 
+
         res.render('home', {bestSelling:bestSellingBooks,booksToday, booksTotal, revenueToday, revenueTotal})
-    }
-    catch(error){
+    } catch (error) {
         console.log(error.message)
     }
 }
 
 const loadListUsers = async(req, res)=>{
-    try{
+    try {
         var search='';
         if(req.query.search){
             search = req.query.search
@@ -137,47 +140,43 @@ const loadListUsers = async(req, res)=>{
              ]
         })
         res.render('list-users', {users:userData})  
-    }
-    catch(error){
+    } catch (error){
         console.log(error.message)
     }
 }
 
 const deactivateUser = async(req,res)=>{
-    try{
+    try {
          await User.findByIdAndUpdate({_id:req.query.id},{$set:{is_blocked:1}})
          res.redirect('/admin/list-users')
-    }
-    catch(error){
+    } catch (error){
         console.log(error.message);
     }
 }
 
 const reactivateUser = async(req,res)=>{
-    try{
+    try {
          await User.findByIdAndUpdate({_id:req.query.id},{$set:{is_blocked:0}})
          res.redirect('/admin/list-users')
-    }
-    catch(error){
+    } catch (error){
         console.log(error.message);
+        res.redirect('/admin/error-page')
     }
 }
 
 const logout = async(req, res)=>{
-    try{
+    try {
         req.session.destroy()
         res.redirect('/admin')
-    }
-    catch(error){
+    } catch (error){
         console.log(error.message)
     }
 }
 
 const loadError = async(req, res)=>{
-    try{
-        res.render('/admin/404')
-    }
-    catch(error){
+    try {
+        res.render('error-page')
+    } catch(error) {
         console.log(error.message)
     }
 }

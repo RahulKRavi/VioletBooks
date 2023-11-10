@@ -14,7 +14,6 @@
                         <h2 class = "text-uppercase text-center mt-5">VERIFY OTP</h2>
 
                         <form action = "/verify-otp" method = "post">
-
                             <div class = "form-outline form-white mt-4 mx-5">
                                 <input type = "text" id = "verifyOTP" name = "otp" class = "form-control form-control-md" placeholder = "Enter the OTP" required/>
                             </div>
@@ -24,9 +23,10 @@
                             </div>
 
                             <div class = "d-flex justify-content-center mt-4">
-                                <p style = "color: rgb(193, 13, 13)"><%=(typeof message!=='undefined')?message:""%></p>
+                                <p style="color: rgb(253, 4, 4); font-weight: bold; " id="errorMessage">
+                                    <%=(typeof message!=='undefined' )?message:""%>
+                                </p>
                             </div>
-
                         </form>
                         
                     </div>

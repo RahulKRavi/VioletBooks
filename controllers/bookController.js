@@ -13,11 +13,33 @@ const loadListBooksForAdmin = async (req, res) => {
                 { title: { $regex: '.*' + search + '.*' } }
             ];
         }
-        const bookData = await Book.find(query). populate('author'). populate('genre');
-        res.render('list-books', { books: bookData });
-    } 
-    catch (error) {
+        const page = req.query.page || 1;
+        const perPage = req.query.perPage || 5;
+        const startIndex = (page - 1) * perPage;
+
+        const sortField = req.query.sortField || 'title'; // Default sorting field
+        const sortOrder = req.query.sortOrder || 1; // Default sorting order (1 for ascending, -1 for descending)
+    
+        // Create the sort object
+        const sort = {};
+        sort[sortField] = sortOrder;
+
+        const totalBooks = await Book.countDocuments({isDeleted:0})
+        const allBooks = await Book.find(query);
+        const displayPagination = allBooks.length > perPage;
+        const books = await Book.find(query)
+            .sort(sort)
+            .skip(startIndex)
+            .limit(perPage)
+        res.render('list-books',{ 
+            books, 
+            currentPage:parseInt(page), 
+            totalPages: Math.ceil(totalBooks/perPage),
+            displayPagination
+        }) 
+    } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 };
 
@@ -28,6 +50,7 @@ const loadAddBook = async (req,res)=>{
         res.render('add-book', {genres,authors})  
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
@@ -52,17 +75,17 @@ const addBook = async(req,res)=>{
         const bookData = await newBook.save()
         if(bookData){
             res.redirect('/admin/list-books')
-        }
-        else{
+        } else {
             res.render('add-book', {message:'Unable to add New Book'})
         }
     } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
 const loadEditBook = async (req,res)=>{
-    try{
+    try {
         const id = req.query.id;
         const bookData = await Book.findById({_id:id})
         if(bookData){
@@ -71,14 +94,14 @@ const loadEditBook = async (req,res)=>{
         else{
             res.redirect('admin/list-books')
         }
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
 const editBook = async(req,res)=>{
-    try{
+    try {
         const bookData = await Book.findByIdAndUpdate({_id:req.body.id},{$set:{
             title:req.body.name,
             about:req.body.about,
@@ -91,8 +114,7 @@ const editBook = async(req,res)=>{
         else{
             res.render('edit-book', {message:'Unable to Edit Book'})
         }
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message)
     }
 }
@@ -108,7 +130,7 @@ const reactivateBook = async(req,res)=>{
 
 
 const loadListBooksForUser = async(req, res)=>{
-    try{
+    try {
         var search = '';
         if (req.query.search) {
             search = req.query.search;
@@ -120,16 +142,36 @@ const loadListBooksForUser = async(req, res)=>{
             ];
         }
         const page = req.query.page || 1;
-        const perPage = 10;
+        const perPage = req.query.perPage || 10;
         const startIndex = (page - 1) * perPage;
+
+        // Sorting
+        const sortField = req.query.sortField || 'title'; // Default sorting field
+        const sortOrder = req.query.sortOrder || 1; // Default sorting order (1 for ascending, -1 for descending)
+    
+        // Create the sort object
+        const sort = {};
+        sort[sortField] = sortOrder;
+
 
         const genres = await Genre.find()
         const totalBooks = await Book.countDocuments({isDeleted:0})
-        const books = await Book.find(query).skip(startIndex).limit(perPage)
-        res.render('list-books',{ genres, books, currentPage:parseInt(page), totalPages: Math.ceil(totalBooks/perPage)}) 
-    }
-    catch(error){
+        const allBooks = await Book.find(query);
+        const displayPagination = allBooks.length > perPage;
+        const books = await Book.find(query)
+            .sort(sort)
+            .skip(startIndex)
+            .limit(perPage)
+        res.render('list-books',{ 
+            genres, 
+            books, 
+            currentPage:parseInt(page), 
+            totalPages: Math.ceil(totalBooks/perPage),
+            displayPagination
+        }) 
+    } catch(error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -142,12 +184,13 @@ const loadViewBook = async (req, res) => {
         const bookData = await Book.findById({ _id: id }).populate('author').populate('genre');
         
         if (bookData) {
-            res.render('view-book', { book: bookData, genres, authors });
+            res.render('view-book', { books: bookData, genres, authors });
         } else {
             res.status(404).render('404', { errorMessage: 'The book you are looking for does not exist.' });
         }
     } catch (error) {
         console.error(error.message);
+        res.redirect('/error-page')
         res.status(500).render('500', { errorMessage: 'Internal Server Error' });
     }
 };

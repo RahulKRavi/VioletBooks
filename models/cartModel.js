@@ -23,19 +23,11 @@ const cartSchema = new mongoose.Schema({
             }
         }
     ],
-    total: {
-        type: Number,
-        default: 0
-    },
     couponCode: {
         type: String,
         required: false
     },
     discount: {
-        type: Number,
-        default: 0
-    },
-    amount: {
         type: Number,
         default: 0
     }

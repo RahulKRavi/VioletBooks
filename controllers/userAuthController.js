@@ -10,9 +10,9 @@ require('dotenv').config();
 const loadSignup = async (req, res) => {
     try {
         res.render('signup')
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -54,22 +54,21 @@ const userRegistration = async (req, res) => {
             req.session.userData = userData;
             req.session.otpToken = otpToken;
             res.render('verify-otp', { userData: req.session.userData, otpToken: req.session.otpToken })
-        }
-        else {
+        } else {
             res.render('signup', { message: "Registration Failed" })
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
 const loadLogin = async (req, res) => {
     try {
         res.render('login')
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -89,26 +88,22 @@ const verifyLogin = async (req, res) => {
                         req.session.otpToken = otpToken;
                         req.session.loginSource = 'password'
                         res.render('verify-otp')
-                    }
-                    else {
+                    } else {
                         req.session.user_id = userData._id
                         res.redirect('/home')
                     }
-                }
-                else {
+                } else {
                     res.render('login', { message: "This account has been blocked" })
                 }
-            }
-            else {
+            } else {
                 res.render('login', { message: "Oops, the password you entered is incorrect" })
             }
-        }
-        else {
+        } else {
             res.render('login', { message: "The Phone number you entered is not registered" })
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -117,13 +112,14 @@ const loadLoginWithOTP = async (req, res) => {
         res.render('login-otp');
     } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 }
 
 const processMobileAuth = async (req, res) => {
     try {
         const userData = await User.findOne({phone:req.body.phone})
-        if(userData){
+        if (userData) {
             if(userData.is_blocked == 0){
                 const otpToken = await otpHelper.sendOTP(req.body.phone, res);
                 console.log(otpToken)
@@ -141,6 +137,7 @@ const processMobileAuth = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -149,14 +146,15 @@ const loadForgotPW = async (req, res) => {
         res.render('forgot-pw');
     } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 }
 
 const processForgotPW = async (req, res) => {
     try {
         const userData = await User.findOne({phone:req.body.phone})
-        if(userData){
-            if(userData.is_blocked == 0){
+        if (userData) {
+            if (userData.is_blocked == 0) {
                 const otpToken = await otpHelper.sendOTP(req.body.phone, res);
                 console.log(otpToken)
                 req.session.userData = userData;
@@ -173,6 +171,7 @@ const processForgotPW = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -183,6 +182,7 @@ const loadVerifyOTP = async (req, res) => {
         res.render('verify-otp');
     } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 }
 
@@ -200,7 +200,7 @@ const verifyOTP = async (req, res) => {
             } else {
                 return res.render('login', { message: "Invalid OTP" });
             }
-        } else if(req.session.loginSource === 'forgot'){
+        } else if (req.session.loginSource === 'forgot') {
             return res.render('reset-pw')
         } else {
             req.session.user_id = req.session.userData._id
@@ -212,6 +212,7 @@ const verifyOTP = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 };
 
@@ -220,6 +221,7 @@ const loadResetPW = async (req, res) => {
         res.render('reset-pw');
     } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 }
 
@@ -228,16 +230,16 @@ const processResetPW = async (req, res) =>{
         const userId = req.session.userData._id; 
         const password = req.body.password
         const confirm = req.body.confirm
-        if( password !== confirm ){
+        if ( password !== confirm ) {
             return res.render('reset-pw', {message: "Passwords not matching"})
-        }
-        else{
+        } else {
             const key =  await passwordHelper.securePassword(req.body.password)
             await User.findByIdAndUpdate({_id:userId},{$set:{password:key}})
             return res.render('login', {message: "Passwords Changed Succesfully"})
         }
     } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -245,14 +247,15 @@ const processResetPW = async (req, res) =>{
 const loadHome = async (req, res) => {
     try {
         const userData = await User.findOne({ _id: req.session.user_id })
-        const genres = await Genre.find()
         const books = await Book.find({ isDeleted: 0 })
-        res.render('home', { user: userData, genres, books })
-    }
-    catch (error) {
+        res.render('home', { user: userData, books })
+    } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
+
+
 
 const userLogout = async (req, res) => {
     try {
@@ -260,14 +263,14 @@ const userLogout = async (req, res) => {
         res.redirect('/')
     } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
 const loadError = async(req, res)=>{
-    try{
-        res.render('/404')
-    }
-    catch(error){
+    try {
+        res.render('error-page')
+    } catch(error) {
         console.log(error.message)
     }
 }

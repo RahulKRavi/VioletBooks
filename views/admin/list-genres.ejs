@@ -32,41 +32,45 @@
                 <tbody>
                     <% for (let i=0; i < genres.length; i++) { %>
                         <tr>
-                            <td>
-                                <%= i+1 %>
-                            </td>
-                            <td>
-                                <%= genres[i].name %>
-                            </td>
-                            <td class="w-50">
-                                <%= genres[i].about %>
-                            </td>
+                            <td><%= i+1 %></td>
+                            <td><%= genres[i].name %></td>
+                            <td class="w-50"><%= genres[i].about %></td>
                             <td>
                                 <% if (genres[i].isDeleted==0) { %>
                                     <p> Active </p>
-                                    <% } else { %>
-                                        <p>Deactive</p>
-                                        <% } %>
+                                <% } else { %>
+                                    <p>Deactive</p>
+                                <% } %>
                             </td>
                             <td>
                                 <a href="/admin/edit-genre?id=<%= genres[i]._id %>" class="btn btn-primary">Edit</a>
                                 <% if (genres[i].isDeleted==0) { %>
-                                    <a href="/admin/deactivate-genre?id=<%= genres[i]._id %>"
-                                        class="btn btn-danger">Delete</a>
-                                    <% } else { %>
-                                        <a href="/admin/reactivate-genre?id=<%= genres[i]._id %>"
-                                            class="btn btn-success">Reactive</a>
-                                        <% } %>
+                                    <a href="/admin/deactivate-genre?id=<%= genres[i]._id %>" class="btn btn-danger">Delete</a>
+                                <% } else { %>
+                                    <a href="/admin/reactivate-genre?id=<%= genres[i]._id %>" class="btn btn-success">Reactive</a>
+                                <% } %>
                             </td>
                         </tr>
-                        <% } %>
+                    <% } %>
                 </tbody>
             </table>
         <% } else { %>
             <p>Genre Not found</p>
-                <% } %>        
+        <% } %>  
+        <% if (displayPagination && totalPages > 1) { %>
+            <div class="pagination">
+                <% if (totalPages > 1) { %>
+                  <ul>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                      <li class="<%= i === currentPage ? 'active' : '' %>">
+                        <a href="?page=<%= i %>"><%= i %></a>
+                      </li>
+                    <% } %>
+                  </ul>
+                <% } %>
+            </div>
+        <% } %>      
     </div>
 </section>
         
-
 <% include("../layouts/footer.ejs")%>

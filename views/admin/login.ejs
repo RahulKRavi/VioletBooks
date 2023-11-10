@@ -1,44 +1,43 @@
 <%-include ('../layouts/header.ejs')%>
 
-  <style>
+<style>
     body {
-      background-color: #f1f1f1;
+        background-color: #f1f1f1;
     }
     .container {
-      margin-top: 100px;
+        margin-top: 100px;
     }
     .login-form {
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .login-form h1 {
-      margin-bottom: 30px;
+        margin-bottom: 30px;
     }
-  </style>
+</style>
   
-  <div class="container">
+<div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-6 text-center">
-        <div class="login-form">
-          <form action="" method="POST">
-            <h1 class="mb-4">Admin Login</h1>
-            <div class="mb-3">
-              <input type="email" class="form-control" name="email" placeholder="Enter Email" required>
+        <div class="col-md-6 text-center">
+            <div class="login-form">
+                <form action="" method="POST">
+                    <h1 class="mb-4">Admin Login</h1>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" placeholder="Enter Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                </form>
+                <% if(typeof message !== 'undefined') { %>
+                    <p class="mt-3"><%= message %></p>
+                <% } %>
             </div>
-            <div class="mb-3">
-              <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
-          </form>
-          <% if(typeof message !== 'undefined') { %>
-            <p class="mt-3"><%= message %></p>
-          <% } %>
         </div>
-      </div>
     </div>
-  </div>
+</div>
   
 <%include ('../layouts/footer.ejs')%>
-

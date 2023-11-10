@@ -3,7 +3,7 @@
 
 <section>
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center text-info mb-3">User Managment</h2>
+        <h2 class="text-center text-info mb-3"> User Managment </h2>
         <form class="mb-3">
             <div class="row">
 
@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="col-12 col-lg-6 text-right">
-                    <a href="/admin/add-user" class="btn btn-primary">Add New User</a>
+                    <a href="/admin/add-user" class="btn btn-primary"> Add New User </a>
                 </div>
 
             </div>
@@ -38,52 +38,40 @@
                 <tbody>
                     <% for (let i=0; i < users.length; i++) { %>
                         <tr>
-                            <td>
-                                <%= users[i].fname %>
-                            </td>
-                            <td>
-                                <%= users[i].lname %>
-                            </td>
-                            <td>
-                                <%= users[i].email %>
-                            </td>
-                            <td>
-                                <%= users[i].phone %>
-                            </td>
+                            <td><%= users[i].fname %></td>
+                            <td><%= users[i].lname %></td>
+                            <td><%= users[i].email %></td>
+                            <td><%= users[i].phone %></td>
                             <td>
                                 <% if (users[i].is_verified==0) { %>
                                     <p> Not verified </p>
-                                    <% } else { %>
-                                        <p>Verified</p>
-                                        <% } %>
+                                <% } else { %>
+                                    <p>Verified</p>
+                                <% } %>
                             </td>
                             <td>
                                 <% if (users[i].is_blocked==0) { %>
                                     <p> Not Blocked</p>
-                                    <% } else { %>
-                                        <p>Blocked</p>
-                                        <% } %>
+                                <% } else { %>
+                                    <p>Blocked</p>
+                                <% } %>
                             </td>
                             <td>
                                 <% if (users[i].is_blocked==0) { %>
-                                    <a href="/admin/deactivate-user?id=<%= users[i]._id %>"
-                                        class="btn btn-danger">Block</a>
-                                    <% } else { %>
-                                        <a href="/admin/reactivate-user?id=<%= users[i]._id %>"
-                                            class="btn btn-success">Unblock</a>
-                                        <% } %>
+                                    <a href="/admin/deactivate-user?id=<%= users[i]._id %>" class="btn btn-danger"> Block </a>
+                                <% } else { %>
+                                    <a href="/admin/reactivate-user?id=<%= users[i]._id %>" class="btn btn-success"> Unblock </a>
+                                <% } %>
                             </td>
                         </tr>
-                        <% } %>
+                    <% } %>
                 </tbody>
             </table>
-            <% } else { %>
-                <p>Users Not found</p>
-                    <% } %>
-
+        <% } else { %>
+            <p> Users Not found </p>
+        <% } %>
     </div>
-
 </section>
     
 
-        <% include("../layouts/footer.ejs")%>
+<% include("../layouts/footer.ejs")%>

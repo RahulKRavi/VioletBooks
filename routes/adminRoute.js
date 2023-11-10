@@ -39,7 +39,8 @@ admin_route.post('/', adminAuthController.verifyLogin)
 admin_route.get('/home', auth.isLogin, adminAuthController.loadHome)
 admin_route.get('/list-users', auth.isLogin, adminAuthController.loadListUsers)
 admin_route.get('/deactivate-user', auth.isLogin, adminAuthController.deactivateUser)
-admin_route.get('/reactive-user', auth.isLogin, adminAuthController.reactivateUser)
+admin_route.get('/reactivate-user', auth.isLogin, adminAuthController.reactivateUser)
+admin_route.get('/error-page', auth.isLogin, adminAuthController.loadError)
 
 
 admin_route.get('/list-genres', auth.isLogin, genreController.loadListGenresForAdmin)
@@ -84,7 +85,10 @@ admin_route.post('/add-coupon', cartController.addCoupon)
 admin_route.get('/deactivate-coupon', auth.isLogin, cartController.deactivateCoupon)
 admin_route.get('/reactivate-coupon', auth.isLogin, cartController.reactivateCoupon)
 
-admin_route.get('/logout', auth.isLogin, adminAuthController.logout)
+admin_route.get('/logout', auth.isLogin, adminAuthController.logout);
+admin_route.get('*', (req, res) => {
+    res.redirect('/404')
+})
 
 
 module.exports = admin_route

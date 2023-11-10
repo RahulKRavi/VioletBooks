@@ -52,8 +52,8 @@
                 <div class="card" style="border-radius: 20px; background-color:#b0bcc2">
                     <div class="card-body p-2 mx-5">
                         <h2 class="text-uppercase text-center mt-5"> Create an account </h2>
-                        <form action="/signup" method="post" onsubmit="return validateForm()">
 
+                        <form action="/signup" method="post" onsubmit="return validateForm()">
                             <div class="row">
                                 <div class="col-12 col-lg-6 form-outline mt-4">
                                     <input type="text" name="fname" id="signupFname" placeholder="First name" class="form-control form-control-md" required />
@@ -86,12 +86,12 @@
                             <p class="text-center text-muted mt-4 mb-5"> Already an account? <a href="/login" class="fw-bold text-body"><u> Login here</u></a></p>
 
                             <div class="d-flex justify-content-center">
-                                <p style="color: rgb(193, 13, 13)" id="errorMessage">
-                                <%=(typeof message!=='undefined' )?message:""%>
+                                <p style="color: rgb(253, 4, 4); font-weight: bold; " id="errorMessage">
+                                    <%=(typeof message!=='undefined' )?message:""%>
                                 </p>
                             </div>
-
                         </form>
+
                     </div>
                 </div>
             </div>

@@ -1,84 +1,63 @@
 <%- include('../layouts/header.ejs') %>
-    <%-include('../layouts/admin-navbar.ejs')%>
+<%-include('../layouts/admin-navbar.ejs')%>
 
-
-        <div class="container-fluid px-5 py-4">
-
-            <h2 class="text-center text-info mb-3">Banner Management</h2>
-
-            <form class="mb-3">
-
-                <div class="row">
-
-                    <div class="col-12 col-lg-6 input-group">
-                        <input type="text" class="form-control" placeholder="Search Banner" name="search">
-                        <div class="input-group-append">
-                            <input type="submit" class="btn btn-primary" value="Search">
-                        </div>
+<div class="container-fluid px-5 py-4">
+    <h2 class="text-center text-info mb-3">Banner Management</h2>
+        <form class="mb-3">
+            <div class="row">
+                <div class="col-12 col-lg-6 input-group">
+                    <input type="text" class="form-control" placeholder="Search Banner" name="search">
+                    <div class="input-group-append">
+                        <input type="submit" class="btn btn-primary" value="Search">
                     </div>
-
-                    <div class="col-12 col-lg-6 text-right">
-                        <a href="/admin/add-banner" class="btn btn-primary">Add New Banner</a>
-                    </div>
-                    
                 </div>
 
-            </form>
-
-            <% if (banners.length> 0) { %>
-                <table class="table table-striped w-auto text-wrap mt-2">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Banner Image</th>
-                            <th>Banner Text</th>
-                            <th>Banner URL</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (let i=0; i < banners.length; i++) { %>
-                            <tr>
-                                <td>
-                                    <%= i+1 %>
-                                </td>
-                                <td>
-                                    <img src="/bannerImages/<%= banners[i].image %>" alt="<%= banners[i].image %>"
-                                        width="80px" height="100px">
-                                </td>
-                                <td>
-                                    <%= banners[i].text %>
-                                </td>
-                                <td>
-                                    <%= banners[i].url  %>
-                                </td>
-                                <td>
-                                    <% if (banners[i].isDeleted==0) { %>
-                                        <p> Active </p>
-                                        <% } else { %>
-                                            <p>Deactive</p>
-                                            <% } %>
-                                </td>
-                                <td style="width: 13%;">
-                                    <a href="/admin/edit-banner?id=<%= banners[i]._id %>"
-                                        class="btn btn-primary">Edit</a>
-                                    <% if (banners[i].isDeleted==0) { %>
-                                        <a href="/admin/deactivate-banner?id=<%= banners[i]._id %>"
-                                            class="btn btn-danger">Delete</a>
-                                        <% } else { %>
-                                            <a href="/admin/reactivate-bannerr?id=<%= banners[i]._id %>"
-                                                class="btn btn-success">Reactive</a>
-                                            <% } %>
-                                </td>
-                            </tr>
+                <div class="col-12 col-lg-6 text-right">
+                    <a href="/admin/add-banner" class="btn btn-primary">Add New Banner</a>
+                </div>
+                    
+            </div>
+        </form>
+        <% if (banners.length> 0) { %>
+            <table class="table table-striped w-auto text-wrap mt-2">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Banner Image</th>
+                        <th>Banner Text</th>
+                        <th>Banner URL</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% for (let i=0; i < banners.length; i++) { %>
+                    <tr>
+                        <td><%= i+1 %></td>
+                        <td><img src="/bannerImages/<%= banners[i].image %>" alt="<%= banners[i].image %>" width="80px" height="100px"></td>
+                        <td><%= banners[i].text %></td>
+                        <td><%= banners[i].url  %></td>
+                        <td>
+                            <% if (banners[i].isDeleted==0) { %>
+                                <p> Active </p>
+                            <% } else { %>
+                                <p> Deactive </p>
                             <% } %>
-                    </tbody>
-                </table>
-                <% } else { %>
-                    <p>Banners Not found</p>
-                    <% } %>
+                        </td>
+                        <td style="width: 13%;"> <a href="/admin/edit-banner?id=<%= banners[i]._id %>" class="btn btn-primary">Edit</a>
+                            <% if (banners[i].isDeleted==0) { %>
+                                <a href="/admin/deactivate-banner?id=<%= banners[i]._id %>" class="btn btn-danger">Delete</a>
+                            <% } else { %>
+                                <a href="/admin/reactivate-bannerr?id=<%= banners[i]._id %>" class="btn btn-success">Reactive</a>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>Banners Not found</p>
+        <% } %>
+</div>
 
-        </div>
-
-        <% include("../layouts/footer.ejs")%>
+<% include("../layouts/footer.ejs")%>

@@ -1,81 +1,74 @@
 <%-include('../layouts/header.ejs')%>
-    <%-include('../layouts/admin-navbar.ejs')%>
+<%-include('../layouts/admin-navbar.ejs')%>
 
-    <script>
-        function validateForm(){
-            var name = document.getElementById("name").value;
-            var nationality = document.getElementById("nationality").value;
-            var description = document.getElementById("about").value;
-            var messageElement = document.getElementById("errorMessage");
+<script>
+    function validateForm(){
+        var name = document.getElementById("name").value;
+        var nationality = document.getElementById("nationality").value;
+        var description = document.getElementById("about").value;
+        var messageElement = document.getElementById("errorMessage");
     
-            messageElement.innerHTML = "";
+        messageElement.innerHTML = "";
 
-            if(!validateTitle(name)){
-                messageElement.innerHTML = "Type a Valid Author Name";
-                event.preventDefault()
-                return false;
-            }
-
-            if(!validateTitle(nationality)){
-                messageElement.innerHTML = "Type a Valid Country Name";
-                event.preventDefault()
-                return false;
-            }
-
-            if(description.length<8){
-                messageElement.innerHTML = "Description must be atleaset 2 words";
-                event.preventDefault()
-                return false;
-            }
-    
-            return true;
-    
+        if(!validateTitle(name)){
+            messageElement.innerHTML = "Type a Valid Author Name";
+            event.preventDefault()
+            return false;
         }
 
-    
-        function validateTitle(title){
-            var titlePattern = /^[A-Za-z\s.]{2,25}$/;
-            return titlePattern.test(title)
+        if(!validateTitle(nationality)){
+            messageElement.innerHTML = "Type a Valid Country Name";
+            event.preventDefault()
+            return false;
+        }
+
+        if(description.length<8){
+            messageElement.innerHTML = "Description must be atleaset 2 words";
+            event.preventDefault()
+            return false;
         }
     
+        return true;
     
-    </script>
-        <div class="container-fluid px-5 py-4">
+    }
 
-            <h2 class="text-center text-info mb-3">Add New Author</h2>
+    function validateTitle(title){
+        var titlePattern = /^[A-Za-z\s.]{2,25}$/;
+        return titlePattern.test(title)
+    } 
+</script>
 
-            <form action="/admin/add-author" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+<div class="container-fluid px-5 py-4">
+    <h2 class="text-center text-info mb-3">Add New Author</h2>
+        <form action="/admin/add-author" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
 
-                <div class="form-outline mb-4">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Author Name" required>
-                </div>
+            <div class="form-outline mb-4">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Author Name" required>
+            </div>
 
-                <div class="form-outline mb-4">
-                    <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nationality" required>
-                </div>
+            <div class="form-outline mb-4">
+                <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nationality" required>
+            </div>
 
-                <div class="form-outline mb-4">
-                    <textarea class="form-control" id="about" name="about" placeholder="Enter Description" row="5"
-                        required></textarea>
-                </div>
+            <div class="form-outline mb-4">
+                <textarea class="form-control" id="about" name="about" placeholder="Enter Description" row="5" required></textarea>
+            </div>
 
-                <div class="form-outline mb-4">
-                    <input type="file" class="form-control-file" name="image" required>
-                </div>
+            <div class="form-outline mb-4">
+                <input type="file" class="form-control-file" name="image" required>
+            </div>
 
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Add Author">
-                    <a class="btn btn-secondary" href="/admin/home">Back to Home</a>
-                </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Add Author">
+                <a class="btn btn-secondary" href="/admin/home">Back to Home</a>
+            </div>
 
-            </form>
+        </form>
+        <% if (typeof message !=='undefined' ) { %>
+            <p style="color:red" id="errorMessage">
+                <%= message %>
+            </p>
+        <% } %>
+</div>
 
-            <% if (typeof message !=='undefined' ) { %>
-                <p style="color:red" id="errorMessage">
-                    <%= message %>
-                </p>
-                <% } %>
-
-        </div>
-
-        <%include('../layouts/footer.ejs')%>
+<%include('../layouts/footer.ejs')%>

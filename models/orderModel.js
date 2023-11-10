@@ -67,16 +67,19 @@ const orderSchema = new mongoose.Schema({
             required: false
         }
     }],
-    coupon: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Coupon', 
-        required: false
-    },
     orderDate: {
         type: Date,
         default: Date.now
     },
-    orderTotal: {
+    totalPrice: {
+        type: Number,
+        required: true
+    },
+    couponDiscount: {
+        type: Number,
+        required: true
+    },
+    amountToPay: {
         type: Number,
         required: true
     },

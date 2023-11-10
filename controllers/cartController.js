@@ -6,7 +6,6 @@ const Coupon = require('../models/couponModel')
 
 const insertToCart = async (req, res) => {
     try {
-        const genres = await Genre.find()
         const id = req.body.book_id;
         const book = await Book.findById(id);       
         if (!book) {
@@ -17,46 +16,48 @@ const insertToCart = async (req, res) => {
         if (!cart) {
             cart = new Cart({
                 user: userId,
-                items: [],
-                total: 0
+                items: []
             });
         }
         const existingCartItem = cart.items.find(item => item.product.toString() === id);
         if (existingCartItem) {
             existingCartItem.quantity++;
-            existingCartItem.price += parseInt(book.price);
+            existingCartItem.price = parseInt(book.price)*existingCartItem.quantity;
         } else {
             cart.items.push({
                 product: id,
                 quantity: 1, 
-                price: book.price 
+                price:book.price
             });
         }
-        cart.total += parseInt(book.price);
-        cart.amount = cart.total-cart.discount;
+        const totalPrice = cart.items.reduce((total, item) => total + item.price, 0);
+        const amountToPay = totalPrice-cart.discount;
         await cart.save();
         let cartData = await Cart.findOne({ user: userId }).populate('items.product');
-        res.render('cart', {cart:cartData, genres})
+        res.render('cart', {cart:cartData, totalPrice, amountToPay})
     } catch (error) {
         console.log(error.message);
-        res.status(500).send('Internal Server Error');
+        res.redirect('/error-page')
     }
 };
 
 const loadCart = async (req, res) => {
     try {
-        const genres = await Genre.find()
         const userId = req.session.user_id; 
+        let cart = await Cart.findOne({ user: userId });
+        const totalPrice = cart.items.reduce((total, item) => total + item.price, 0);
+        const amountToPay = totalPrice-cart.discount;
         let cartData = await Cart.findOne({ user: userId }).populate('items.product');
-        res.render('cart', {cart:cartData, genres});
+        res.render('cart', {cart:cartData,totalPrice,amountToPay});
     } catch (error) {
         console.log(error.message);
-        res.status(500).send('Internal Server Error');
+        res.redirect('/error-page')
+
     }
 };
 
 const removeItem = async (req, res) => {
-    try{
+    try {
         const id = req.query.id;
         const userId = req.session.user_id;
         const cart = await Cart.findOne({ user: userId });
@@ -75,17 +76,18 @@ const removeItem = async (req, res) => {
       
         const priceOfItemToRemove = itemToRemove.price;
         const cartData = await Cart.findOneAndUpdate({user:userId},{ $pull: { items: { _id:id} }},{ new: true }). populate('items.product')
-        cartData.total -=parseInt(priceOfItemToRemove)
+        const previousPrice = cart.items.reduce((total, item) => total + item.price, 0);
+        const totalPrice = previousPrice - parseInt(priceOfItemToRemove)
+        const amountToPay = totalPrice-cart.discount;
         await cartData.save()
-        if(cartData){
+        if (cartData) {
+            res.render('cart', {cart:cartData,totalPrice,amountToPay})
+        } else {
             res.render('cart', {cart:cartData})
         }
-        else{
-            res.render('cart', {cart:cartData})
-        }
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -103,9 +105,9 @@ const loadListCouponsForAdmin = async (req, res) => {
         }
         const couponData = await Coupon.find(query);
         res.render('list-coupons', { coupons: couponData });
-    } 
-    catch (error) {
+    } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 };
 
@@ -114,6 +116,7 @@ const loadAddCoupon = async (req,res)=>{
         res.render('add-coupon')  
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
@@ -137,28 +140,30 @@ const addCoupon = async(req,res)=>{
         }
     } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 }
 
 const deactivateCoupon = async(req,res)=>{
-    try{
+    try {
          await Coupon.findByIdAndUpdate({_id:req.query.id},{$set:{isActive:0}})
          res.redirect('/admin/list-coupons')
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 }
 
 const reactivateCoupon = async(req,res)=>{
-    try{
+    try {
          await Coupon.findByIdAndUpdate({_id:req.query.id},{$set:{isActive:1}})
          res.redirect('/admin/list-coupons')
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message);
+        res.redirect('/error-page')
     }
 }
+
 module.exports = {
     insertToCart,
     loadCart,

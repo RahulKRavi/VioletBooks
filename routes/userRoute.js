@@ -17,19 +17,26 @@ user_route.use(session({
     saveUninitialized:true,
     resave:false
 }))
-
+const { Genre } = require('../models/bookModel'); 
 
 const auth = require('../middlewares/userAuth')
 const userAuthController = require('../controllers/userAuthController')
 const genreController = require('../controllers/genreController')
-const authorController = require('../controllers/authorController')
 const bookController = require('../controllers/bookController')
 const profileController = require('../controllers/profileController')
 const cartController = require('../controllers/cartController')
 const orderController = require('../controllers/orderController')
 
 
-
+user_route.get('/api/genres', async (req, res) => {
+    try {
+      const genres = await Genre.find({ isDeleted: 0 }); // Fetch non-deleted genres
+      res.json(genres);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 user_route.get('/', auth.isLogout, userAuthController.loadLogin)
 user_route.get('/signup', auth.isLogout, userAuthController.loadSignup)
 user_route.post('/signup', userAuthController.userRegistration)
@@ -45,6 +52,7 @@ user_route.get('/reset-pw', userAuthController.loadResetPW)
 user_route.post('/reset-pw', userAuthController.processResetPW)
 user_route.get('/home', auth.isLogin, userAuthController.loadHome)
 user_route.get('/logout', auth.isLogin, userAuthController.userLogout)
+user_route.get('/error-page', userAuthController.loadError)
 
 
 user_route.get('/my-account', auth.isLogin, profileController.loadMyAccount)
@@ -79,6 +87,10 @@ user_route.get('/order-details', auth.isLogin, orderController.loadOrderDetails)
 user_route.get('/cancel-order', auth.isLogin, orderController.cancelOrder)
 user_route.get('/download-invoice', auth.isLogin, orderController.downloadInvoice)
 
+
+user_route.get('*', (req, res) => {
+  res.redirect('/404')
+})
 
 
 

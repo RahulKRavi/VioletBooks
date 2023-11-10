@@ -15,8 +15,7 @@ const loadListAuthorsForAdmin = async (req, res) => {
         }
         const authorData = await Author.find(query);
         res.render('list-authors', { authors: authorData });
-    } 
-    catch (error) {
+    } catch (error) {
         console.log(error.message);
     }
 };
@@ -51,7 +50,7 @@ const addAuthor = async(req,res)=>{
 }
 
 const loadEditAuthor = async (req,res)=>{
-    try{
+    try {
         const id = req.query.id;
         const authorData = await Author.findById({_id:id})
         if(authorData){
@@ -60,14 +59,13 @@ const loadEditAuthor = async (req,res)=>{
         else{
             res.redirect('admin/list-authors')
         }
-    }
-    catch(error){
+    } catch (error) {
         console.log(error.message)
     }
 }
 
 const editAuthor = async (req,res)=>{
-    try{
+    try {
         const authorData = await Author.findByIdAndUpdate({_id:req.body.id},{$set:{
             name: req.body.name,
             nationality: req.body.nationality,
@@ -79,8 +77,7 @@ const editAuthor = async (req,res)=>{
         else{
             res.render('edit-author', {message:'Unable to Edit Author'})
         }
-    }
-    catch(error){
+    } catch (error) {
         console.log(error.message)
     }
 }

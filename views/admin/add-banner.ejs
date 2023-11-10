@@ -1,38 +1,33 @@
 <%-include('../layouts/header.ejs')%>
-    <%-include('../layouts/admin-navbar.ejs')%>
+<%-include('../layouts/admin-navbar.ejs')%>
 
+<div class="container-fluid px-5 py-4">
+    <h2 class="text-center text-info mb-3">Add New Banner</h2>
+        <form action="/admin/add-banner" method="post" enctype="multipart/form-data">
 
-        <div class="container-fluid px-5 py-4">
+            <div class="form-outline mb-4">
+                <input type="text" class="form-control" name="text" placeholder="Banner Text" required>
+            </div>
 
-            <h2 class="text-center text-info mb-3">Add New Banner</h2>
+            <div class="form-outline mb-4">
+                <input type="text" class="form-control" name="url" placeholder="Banner URL" required>
+            </div>
 
-            <form action="/admin/add-banner" method="post" enctype="multipart/form-data">
+            <div class="form-outline mb-4">
+                <input type="file" class="form-control-file" name="image" required>
+            </div>
 
-                <div class="form-outline mb-4">
-                    <input type="text" class="form-control" name="text" placeholder="Banner Text" required>
-                </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Add banner">
+                <a class="btn btn-secondary" href="/admin/home">Back to Home</a>
+            </div>
 
-                <div class="form-outline mb-4">
-                    <input type="text" class="form-control" name="url" placeholder="Banner URL" required>
-                </div>
+        </form>
+        <% if (typeof message !=='undefined' ) { %>
+            <p style="color:red;">
+                <%= message %>
+            </p>
+        <% } %>
+</div>
 
-                <div class="form-outline mb-4">
-                    <input type="file" class="form-control-file" name="image" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Add banner">
-                    <a class="btn btn-secondary" href="/admin/home">Back to Home</a>
-                </div>
-
-            </form>
-
-            <% if (typeof message !=='undefined' ) { %>
-                <p style="color:red;">
-                    <%= message %>
-                </p>
-                <% } %>
-
-        </div>
-
-        <%include('../layouts/footer.ejs')%>
+<%include('../layouts/footer.ejs')%>

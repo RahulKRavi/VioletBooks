@@ -1,3 +1,36 @@
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        try {
+            const response = await fetch('/api/genres');
+        
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+        
+            const data = await response.json();
+        
+            if (data.length > 0) {
+                const genresList = document.querySelectorAll('.main-menu.mobile-menu ul li:has(ul.sub-menu)');
+                const subMenu = genresList[0].querySelector('ul.sub-menu');
+                subMenu.innerHTML = '';
+    
+                data.forEach((genre) => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = `/view-genre?id=${genre._id}`;
+                    link.textContent = genre.name;
+                    listItem.appendChild(link);
+                    subMenu.appendChild(listItem);
+                });
+            }
+
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    });
+</script>
+    
+
 <header class="header-section">
     <div class="container-fluid">
         <div class="inner-header">
@@ -13,8 +46,13 @@
             <nav class="main-menu mobile-menu">
                 <ul>
                     <li><a href="/home">Home</a></li>
-                    <li><a href="/list-genres">Genres</a></li>
-                    <li><a href="/list-authors">Authors</a></li>
+                    <li><a href="#">Genres</a>
+                        <ul class="sub-menu">
+                                <li><a>
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
                     <li><a href="/list-books">Books</a></li>
                     <li><a href="#">Profile</a>
                         <ul class="sub-menu">
@@ -31,3 +69,5 @@
         </div>
     </div>
 </header>
+
+    

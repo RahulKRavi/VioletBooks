@@ -5,9 +5,9 @@
 <!-- Product Page Section Beign -->
 <section class="product-page">
     <div class="container mb-5">
+
         <form action = "/view-book" method = "post">
             <div class="row">
-
                 <div class="col-lg-6">
                     <div class="product-img mx-5 my-4 px-5 py-4">
                         <figure>
@@ -36,16 +36,14 @@
                         </ul>
                     </div>
                 </div>
-
             </div>
 
             <div class="payment-method pb-5 px-5">
                 <button type="submit">Add To Cart</button>
             </div>
-
-            <input type="hidden" name="book_id" value="<%= books._id %>">
-            
+            <input type="hidden" name="book_id" value="<%= books._id %>">  
         </form>
+
     </div>
 </section>
 <!-- Product Page Section End -->

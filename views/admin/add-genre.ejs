@@ -1,35 +1,29 @@
 <%-include('../layouts/header.ejs')%>
-    <%-include('../layouts/admin-navbar.ejs')%>
+<%-include('../layouts/admin-navbar.ejs')%>
 
+<div class="container-fluid px-5 py-4">
+    <h2 class="text-center text-info mb-3">Add New Genre</h2>
+        <form action="/admin/add-genre" method="post">
 
-        <div class="container-fluid px-5 py-4">
+            <div class="form-outline mb-4">
+                <input type="text" class="form-control" name="genreName" placeholder="Genre Name" required />
+            </div>
 
-            <h2 class="text-center text-info mb-3">Add New Genre</h2>
+            <div class="form-outline mb-4">
+                <textarea class="form-control" name="about" placeholder="Enter Description" row="5" required></textarea>
+            </div>
 
-            <form action="/admin/add-genre" method="post">
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Add Genre">
+                <a class="btn btn-secondary" href="/admin/list-genres">Back to Home</a>
+            </div>
 
-                <div class="form-outline mb-4">
-                    <input type="text" class="form-control" name="genreName" placeholder="Genre Name" required />
-                </div>
+        </form>
+        <% if (typeof message !=='undefined' ) { %>
+            <p style="color:green;">
+                <%= message %>
+            </p>
+        <% } %>
+</div>
 
-                <div class="form-outline mb-4">
-                    <textarea class="form-control" name="about" placeholder="Enter Description" row="5"
-                        required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Add Genre">
-                    <a class="btn btn-secondary" href="/admin/list-genres">Back to Home</a>
-                </div>
-
-            </form>
-
-            <% if (typeof message !=='undefined' ) { %>
-                <p style="color:green;">
-                    <%= message %>
-                </p>
-                <% } %>
-
-        </div>
-
-        <%include('../layouts/footer.ejs')%>
+<%include('../layouts/footer.ejs')%>

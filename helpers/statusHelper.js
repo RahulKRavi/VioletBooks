@@ -1,10 +1,9 @@
 const updateModelStatus = async(req,res,Model,statusValue,redirectPath)=>{
-    try{
+    try {
         const objectId = req.query.id
         await Model.findByIdAndUpdate({_id:objectId},{$set:{isDeleted:statusValue}})
         res.redirect(redirectPath)
-    }
-    catch{
+    } catch {
         console.log(error.message)
     }
 }

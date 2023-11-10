@@ -9,25 +9,25 @@ const loadMyAccount = async (req,res)=>{
         res.render('my-account', {user:userData})  
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
 //Function to edit account details
 const editMyAccount = async(req,res)=>{
-    try{
+    try {
         const userData = await User.findByIdAndUpdate({_id:req.body.id},{$set:{
             fname:req.body.fname,
             lname:req.body.lname
         }})
-        if(userData){
+        if (userData) {
             res.redirect('my-account')
-        }
-        else{
+        } else {
             res.render('my-account', {message:'Something Wrong'})
         }
-    }
-    catch(error){
+    } catch(error) {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
@@ -38,36 +38,38 @@ const loadMyAddress = async (req,res)=>{
         res.render('my-address', {address:addressData})    
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
 //Function to delete an address from user profile
 const deleteAddress = async( req, res)=>{
-    try{
+    try {
         const objectId = req.query.id
         await Address.findByIdAndUpdate({_id:objectId},{$set:{isDeleted:1}})
         res.redirect('my-address')
-    }
-    catch{
+    } catch {
         console.log(error.message)
+        res.redirect('/error-page')
     }
 }
 
 
 //Function to load the edit page for address
 const loadEditAddress = async( req, res)=> {
-    try{
+    try {
         const addressId = req.query.id;
         const addressData = await Address.findById(addressId)
         res.render('edit-address', {address:addressData})
-    } catch (error){
+    } catch (error) {
         console.log(error)
+        res.redirect('/error-page')
     }
 }
 
 //Function to edit and address
 const editAddress = async(req, res)=> {
-    try{
+    try {
         const addressData = await Address.findOneAndUpdate({_id:req.body.id},{$set:{
             title:req.body.title,
             fname:req.body.fname,
@@ -81,12 +83,12 @@ const editAddress = async(req, res)=> {
         }})
         if(addressData){
             res.redirect('my-address')
-        }
-        else{
+        } else {
             res.render('edit-address', {message:'Something Wrong'})
         }
     } catch (error){
         console.log(error)
+        res.redirect('/error-page')
     }
 }
 
@@ -96,6 +98,7 @@ const loadAddAddress = async (req,res)=>{
         res.render('add-address', {user_id:req.session.user_id})  
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
@@ -121,15 +124,15 @@ const addAddress = async (req, res) => {
             });
         await newAddress.save();
         const addressData = await Address.find({user:req.session.user_id})
-        if(addressData){
+        if (addressData) {
             res.render('my-address', {address:addressData})
-        }
-        else{
+        } else {
             res.render('add-address', {message:'Unable to add new address'})
         }
 
     } catch (error) {
         console.log(error.message);
+        res.redirect('/error-page')
         res.status(500).send('Internal Server Error');
     }
 };
@@ -141,6 +144,7 @@ const loadChooseAddress = async (req,res)=>{
         res.render('choose-address', {address:addressData})    
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
@@ -150,12 +154,13 @@ const loadChangePassword = async (req,res)=>{
         res.render('change-password')  
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
 //Function to load the change the passoword to a new one
 const changePassword = async (req,res)=>{
-    try{
+    try {
         const userId = req.session.user_id; 
         const current = req.body.current
         const userData = await User.findById(userId)
@@ -165,19 +170,17 @@ const changePassword = async (req,res)=>{
             const confirm = req.body.confirm
             if( password !== confirm ){
                 return res.render('change-password', {message: "Passwords not matching"})
-            }
-            else{
+            } else {
                 const key =  await passwordHelper.securePassword(req.body.password)
                 await User.findByIdAndUpdate({_id:userId},{$set:{password:key}})
                 return res.render('change-password', {message: "Passwords Changed Succesfully"})
             }
-        }
-        else{
+        } else {
             return res.render('change-password', {message: "The password entered is wrong"})
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error.nessage)
+        res.redirect('/error-page')
     }
 }
 
