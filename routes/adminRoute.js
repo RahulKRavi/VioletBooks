@@ -86,9 +86,6 @@ admin_route.get('/deactivate-coupon', auth.isLogin, cartController.deactivateCou
 admin_route.get('/reactivate-coupon', auth.isLogin, cartController.reactivateCoupon)
 
 admin_route.get('/logout', auth.isLogin, adminAuthController.logout);
-admin_route.get('*', (req, res) => {
-    res.redirect('/404')
-})
 
 
 module.exports = admin_route

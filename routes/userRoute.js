@@ -89,7 +89,7 @@ user_route.get('/download-invoice', auth.isLogin, orderController.downloadInvoic
 
 
 user_route.get('*', (req, res) => {
-  res.redirect('/404')
+  res.redirect('/not-found')
 })
 
 

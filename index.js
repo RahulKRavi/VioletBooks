@@ -1,18 +1,20 @@
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({"path":".env"});
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
+const userRoute = require('./routes/userRoute');
 const express = require('express');
 const app = express();
 
-const userRoute = require('./routes/userRoute');
+ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
 app.use('/', userRoute);
 
 const adminRoute = require('./routes/adminRoute');
 app.use('/admin', adminRoute);
 
-app.listen(3000, function(){
+app.listen(3000, async  function(){
     console.log("Server is Started");
 });
