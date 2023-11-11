@@ -2,17 +2,17 @@ const dotenv = require('dotenv');
 dotenv.config({"path":".env"});
 
 const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_UR).then().catch((err)=>{
+    console.log(err);
+})
 
-const userRoute = require('./routes/userRoute');
 const express = require('express');
 const app = express();
 
- mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-console.log(process.env.MONGODB_URI)
+const userRoute = require('./routes/userRoute');
+const adminRoute = require('./routes/adminRoute');
 
 app.use('/', userRoute);
-
-const adminRoute = require('./routes/adminRoute');
 app.use('/admin', adminRoute);
 
 app.listen(3000, async  function(){

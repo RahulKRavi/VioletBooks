@@ -120,29 +120,44 @@ const loadAddCoupon = async (req,res)=>{
     }
 }
 
-const addCoupon = async(req,res)=>{
+const addCoupon = async (req, res) => {
     try {
-        const existCoupon = await Coupon.findOne({code:req.body.code})
-        if(existCoupon){
-            console.log('Coupon already exists')
-            return res.render('add-coupon', {message:'Coupon already exists'})
+        const { code, discount, expirationDate, minimumOrderAmount, isActive } = req.body;
+
+        // Validate if the required fields are present in the request
+        if (!code || !discount || !expirationDate) {
+            return res.status(400).render('add-coupon', { message: 'Code, discount, and expiration date are required' });
         }
-        const newCoupon = new Coupon({  
-            code: req.body.code,
-            discount: req.body.discount
-        })
-        const couponData = await newCoupon.save()
-        if(couponData){
-            res.redirect('/admin/list-coupons')
+
+        const existCoupon = await Coupon.findOne({ code });
+
+        if (existCoupon) {
+            console.log('Coupon already exists');
+            return res.render('add-coupon', { message: 'Coupon already exists' });
         }
-        else{
-            res.render('add-coupon', {message:'Unable to add New Coupon'})
+
+        const newCoupon = new Coupon({
+            code,
+            discount,
+            expirationDate,
+            minimumOrderAmount: minimumOrderAmount || 0, // Default to 0 if not provided
+            isActive: isActive || 1, // Default to 1 if not provided
+        });
+
+        const couponData = await newCoupon.save();
+
+        if (couponData) {
+            res.render('add-coupon', { message: 'Coupon added successfully' });
+        } else {
+            res.render('add-coupon', { message: 'Unable to add new coupon' });
         }
     } catch (error) {
-        console.log(error.message);
-        res.redirect('/error-page')
+        console.error(error.message);
+        res.redirect('/error-page');
     }
-}
+};
+
+
 
 const deactivateCoupon = async(req,res)=>{
     try {

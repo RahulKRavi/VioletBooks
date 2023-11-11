@@ -39,7 +39,7 @@ const loadListBooksForAdmin = async (req, res) => {
         }) 
     } catch (error) {
         console.log(error.message);
-        res.redirect('/error-page')
+        res.redirect('/admin/error-page')
     }
 };
 
@@ -50,7 +50,7 @@ const loadAddBook = async (req,res)=>{
         res.render('add-book', {genres,authors})  
     } catch (error) {
         console.log(error.nessage)
-        res.redirect('/error-page')
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -191,7 +191,6 @@ const loadViewBook = async (req, res) => {
     } catch (error) {
         console.error(error.message);
         res.redirect('/error-page')
-        res.status(500).render('500', { errorMessage: 'Internal Server Error' });
     }
 };
 

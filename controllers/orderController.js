@@ -504,13 +504,8 @@ const cancelOrder = async (req, res) => {
             const refundAmount = order[0].product.price*order[0].product.quantity
             const user = await User.findById(req.session.user_id);
             
-            console.log("USER ID:"+ req.session.user_id)
-            console.log("USER WALLET:"+ user.wallet)
-            console.log("REFUND AMOUNT:"+ refundAmount )
-
             user.wallet += parseInt(refundAmount);
 
-            console.log("USER WALLET:"+ user.wallet)
             await user.save();
         }
         const quantity = order[0].product.quantity

@@ -1,10 +1,17 @@
 const twilio = require('twilio');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const TWILIO_SID = "ACceb5fc6dace3c795bd750246608e6cab";
-const TWILIO_AUTH_TOKEN = "cd5be99c8b37c554a1e0482170a8ded3";
-const TWILIO_PHONE_NUMBER = "+16562162811";
+const sid = process.env.TWILIO_SID;
+const token = process.env.TWILIO_AUTH_TOKEN;
+const phone = process.env.TWILIO_PHONE_NUMBER;
+console.log(token,phone);
+if (!sid || !token || !phone) {
+    console.error("Twilio credentials or phone number missing in .env file.");
+    process.exit(1);
+  }
 
-const client = twilio(TWILIO_SID, TWILIO_AUTH_TOKEN);
+const client = twilio(sid, token);
 
 const sendOTP = async (phoneNumber,res) => {
     try {
@@ -13,10 +20,10 @@ const sendOTP = async (phoneNumber,res) => {
 
         await client.messages.create({
             body: message,
-            from: TWILIO_PHONE_NUMBER,
+            from: phone,
             to: '+91'+phoneNumber
         });
-
+  console.log(otp);
         return otp
 
     } catch (error) {

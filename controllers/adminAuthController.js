@@ -9,6 +9,7 @@ const loadLogin = async(req, res)=>{
         res.render('login')
     } catch(error) {
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -37,6 +38,7 @@ const verifyLogin = async(req, res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -120,6 +122,7 @@ const loadHome = async(req, res)=>{
         res.render('home', {bestSelling:bestSellingBooks,booksToday, booksTotal, revenueToday, revenueTotal})
     } catch (error) {
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -142,6 +145,7 @@ const loadListUsers = async(req, res)=>{
         res.render('list-users', {users:userData})  
     } catch (error){
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -151,6 +155,7 @@ const deactivateUser = async(req,res)=>{
          res.redirect('/admin/list-users')
     } catch (error){
         console.log(error.message);
+        res.redirect('/admin/error-page')
     }
 }
 

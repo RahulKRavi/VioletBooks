@@ -17,6 +17,7 @@ const loadListAuthorsForAdmin = async (req, res) => {
         res.render('list-authors', { authors: authorData });
     } catch (error) {
         console.log(error.message);
+        res.redirect('/admin/error-page')
     }
 };
 
@@ -25,6 +26,7 @@ const loadAddAuthor = async (req,res)=>{
         res.render('add-author')  
     } catch (error) {
         console.log(error.nessage)
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -46,6 +48,7 @@ const addAuthor = async(req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -61,6 +64,7 @@ const loadEditAuthor = async (req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -79,6 +83,7 @@ const editAuthor = async (req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 

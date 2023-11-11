@@ -21,18 +21,16 @@
                             <input type="submit" class="btn btn-secondary" value="Search">
                         </div>
                     </div>
-                    <div class="col-4 col-lg-4">
-                        <div class="dropdown show">
-                            <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown link
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
+                    <div class="col-4 col-lg-4 input-group justify-content-end">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <a href="?page=<%= currentPage %>&sortField=title&sortOrder=1" class="btn btn-secondary">Title Asc</a>
+                          </div>
+                          <div class="input-group-prepend ml-3">
+                            <a href="?page=<%= currentPage %>&sortField=title&sortOrder=-1" class="btn btn-secondary">Title Desc</a>
+                          </div>
                         </div>
-                    </div>
+                      </div>
                 </div>
             </form>
         </div>
@@ -73,6 +71,7 @@
                   </ul>
                 <% } %>
             </div>
+
         <% } %>
     </div>
 </section>

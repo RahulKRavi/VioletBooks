@@ -1,17 +1,14 @@
 const express = require('express')
 const admin_route = express()
 
-
 admin_route.set('view engine', 'ejs')
 admin_route.set('views', './views/admin')
 admin_route.use(express.static('public'))
 admin_route.use(express.json())
 admin_route.use(express.urlencoded({extended:true}))
 
-
 const nocache = require('nocache')
 admin_route.use(nocache())
-
 
 const config = require('../config/sessionConfig')
 const session = require('express-session')
@@ -58,6 +55,7 @@ admin_route.get('/edit-author', auth.isLogin, authorController.loadEditAuthor)
 admin_route.post('/edit-author', authorUpload.single('image'), authorController.editAuthor)
 admin_route.get('/deactivate-author', auth.isLogin, authorController.deactivateAuthor)
 admin_route.get('/reactivate-author', auth.isLogin, authorController.reactivateAuthor)
+admin_route.get('/logout', auth.isLogin, adminAuthController.logout);
 
 admin_route.get('/list-books', auth.isLogin, bookController.loadListBooksForAdmin)
 admin_route.get('/add-book', auth.isLogin, bookController.loadAddBook)
@@ -84,8 +82,6 @@ admin_route.get('/add-coupon', auth.isLogin, cartController.loadAddCoupon)
 admin_route.post('/add-coupon', cartController.addCoupon)
 admin_route.get('/deactivate-coupon', auth.isLogin, cartController.deactivateCoupon)
 admin_route.get('/reactivate-coupon', auth.isLogin, cartController.reactivateCoupon)
-
-admin_route.get('/logout', auth.isLogin, adminAuthController.logout);
 
 
 module.exports = admin_route

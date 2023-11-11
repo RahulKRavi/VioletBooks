@@ -17,7 +17,7 @@ const loadListBannersForAdmin = async (req, res) => {
         res.render('list-banners', { banners: bannerData });
     } catch (error) {
         console.log(error.message);
-        res.redirect('/error-page')
+        res.redirect('/admin/error-page')
     }
 };
 
@@ -26,7 +26,7 @@ const loadAddBanner = async (req,res)=>{
         res.render('add-banner')  
     } catch (error) {
         console.log(error.nessage)
-        res.redirect('/error-page')
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -47,7 +47,7 @@ const addBanner = async(req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
-        res.redirect('/error-page')
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -63,6 +63,7 @@ const loadEditBanner = async (req,res)=>{
         }
     } catch (error) {
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 
@@ -80,6 +81,7 @@ const editBanner = async (req,res)=>{
         }
     } catch(error) {
         console.log(error.message)
+        res.redirect('/admin/error-page')
     }
 }
 

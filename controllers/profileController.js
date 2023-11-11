@@ -133,7 +133,6 @@ const addAddress = async (req, res) => {
     } catch (error) {
         console.log(error.message);
         res.redirect('/error-page')
-        res.status(500).send('Internal Server Error');
     }
 };
 

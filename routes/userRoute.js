@@ -17,7 +17,7 @@ user_route.use(session({
     saveUninitialized:true,
     resave:false
 }))
-const { Genre } = require('../models/bookModel'); 
+
 
 const auth = require('../middlewares/userAuth')
 const userAuthController = require('../controllers/userAuthController')
@@ -26,6 +26,7 @@ const bookController = require('../controllers/bookController')
 const profileController = require('../controllers/profileController')
 const cartController = require('../controllers/cartController')
 const orderController = require('../controllers/orderController')
+const { Genre } = require('../models/bookModel'); 
 
 
 user_route.get('/api/genres', async (req, res) => {
@@ -37,6 +38,7 @@ user_route.get('/api/genres', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
 user_route.get('/', auth.isLogout, userAuthController.loadLogin)
 user_route.get('/signup', auth.isLogout, userAuthController.loadSignup)
 user_route.post('/signup', userAuthController.userRegistration)
@@ -86,12 +88,6 @@ user_route.get('/my-orders', auth.isLogin, orderController.loadMyOrders)
 user_route.get('/order-details', auth.isLogin, orderController.loadOrderDetails)
 user_route.get('/cancel-order', auth.isLogin, orderController.cancelOrder)
 user_route.get('/download-invoice', auth.isLogin, orderController.downloadInvoice)
-
-
-user_route.get('*', (req, res) => {
-  res.redirect('/not-found')
-})
-
 
 
 module.exports = user_route;

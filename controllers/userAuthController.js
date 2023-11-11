@@ -156,7 +156,7 @@ const processForgotPW = async (req, res) => {
         if (userData) {
             if (userData.is_blocked == 0) {
                 const otpToken = await otpHelper.sendOTP(req.body.phone, res);
-                console.log(otpToken)
+                console.log('otp',otpToken)
                 req.session.userData = userData;
                 req.session.otpToken = otpToken;
                 req.session.loginSource = 'forgot'
@@ -204,8 +204,6 @@ const verifyOTP = async (req, res) => {
             return res.render('reset-pw')
         } else {
             req.session.user_id = req.session.userData._id
-            console.log("user" + req.session.user_id)
-            console.log("userData" + req.session.userData._id)
             await User.findByIdAndUpdate({ _id: req.session.user_id }, { $set: { is_verified: 1 } })
             res.redirect('/home');
         }
