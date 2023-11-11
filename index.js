@@ -2,10 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config({"path":".env"});
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_UR).then().catch((err)=>{
-    console.log(err);
-})
-
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 const express = require('express');
 const app = express();
 

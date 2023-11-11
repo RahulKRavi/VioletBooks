@@ -59,12 +59,12 @@ const loadHome = async(req, res)=>{
                 },
             },
             {
-                $unwind: '$product', // Split the product array into separate documents.
+                $unwind: { path: '$product', preserveNullAndEmptyArrays: true }, // Preserve documents with no products.
             },
             {
                 $group: {
                     _id: null,
-                    booksSoldToday: { $sum: '$product.quantity' },
+                    booksSoldToday: { $sum: { $ifNull: ['$product.quantity', 0] } }, // Use $ifNull to handle null values.
                 },
             },
         ])
@@ -73,12 +73,12 @@ const loadHome = async(req, res)=>{
 
         const booksTotal = await Order.aggregate([
             {
-                $unwind: '$product',
+                $unwind: { path: '$product', preserveNullAndEmptyArrays: true }, 
             },
             {
                 $group: {
                     _id: null,
-                    booksSoldTotal: { $sum: '$product.quantity' },
+                    booksSoldTotal: {$sum: { $ifNull: ['$product.quantity', 0] } },
                 },
             },
         ])
@@ -94,12 +94,12 @@ const loadHome = async(req, res)=>{
                 },
             },
             {
-                $unwind: '$product', // Split the product array into separate documents.
+                $unwind: { path: '$product', preserveNullAndEmptyArrays: true },  // Split the product array into separate documents.
             },
             {
                 $group: {
                     _id: null,
-                    revenueToday: { $sum: '$totalPrice' },
+                    revenueToday: {$sum: { $ifNull: ['$totalPrice', 0] } },
                 },
             },
         ])
@@ -108,12 +108,12 @@ const loadHome = async(req, res)=>{
 
         const revenueTotal = await Order.aggregate([
             {
-                $unwind: '$product',
+                $unwind: { path: '$product', preserveNullAndEmptyArrays: true }, 
             },
             {
                 $group: {
                     _id: null,
-                    revenueTotal: { $sum: '$totalPrice' },
+                    revenueTotal: {$sum: { $ifNull: ['$totalPrice', 0] } },
                 },
             },
         ])
