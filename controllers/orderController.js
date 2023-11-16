@@ -329,8 +329,17 @@ const proceedToPayment = async (req, res) => {
         });
 
         if (req.body.payment_method === 'COD') {
+
             res.redirect('order-success');
+
+        } else if (req.body.payment_method === 'Wallet'){
+
+            userDocument.wallet -= parseInt(amountToPay);
+            await userDocument.save();
+            res.redirect('order-success');
+
         } else if (req.body.payment_method === 'RazorPay') {
+
             const options = {
                 amount: amountToPay * 100, // Amount in paise (Indian currency)
                 currency: 'INR',
@@ -345,9 +354,12 @@ const proceedToPayment = async (req, res) => {
                 const orderId = order.id
                 res.render('razorpay-view', { orderId: orderId, realId:orderData._id, amountToPay });
             });
+
         } else {
+
             console.log("Invalid payment method")
             res.render('checkout', { message: 'Invalid payment method' });
+
         }
         
     } catch (error) {
