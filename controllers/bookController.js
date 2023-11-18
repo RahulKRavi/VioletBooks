@@ -142,7 +142,7 @@ const loadListBooksForUser = async(req, res)=>{
             ];
         }
         const page = req.query.page || 1;
-        const perPage = req.query.perPage || 10;
+        const perPage = req.query.perPage || 12;
         const startIndex = (page - 1) * perPage;
 
         // Sorting
