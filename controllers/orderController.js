@@ -203,7 +203,7 @@ const loadCheckout = async (req, res) => {
             res.render('home', { user: userData, })
         }
     } catch (error) {
-        console.log(error.nessage)
+        console.log(error.message)
         res.redirect('/error-page')
     }
 }
@@ -334,6 +334,8 @@ const proceedToPayment = async (req, res) => {
 
         } else if (req.body.payment_method === 'Wallet'){
 
+            orderData.paymentStatus ='Completed';
+            await orderData.save();
             userDocument.wallet -= parseInt(amountToPay);
             await userDocument.save();
             res.redirect('order-success');
