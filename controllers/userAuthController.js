@@ -50,7 +50,6 @@ const userRegistration = async (req, res) => {
         await cart.save();
         if (userData) {
             const otpToken = await otpHelper.sendOTP(req.body.phone, res);
-            console.log(otpToken)
             req.session.userData = userData;
             req.session.otpToken = otpToken;
             res.render('verify-otp', { userData: req.session.userData, otpToken: req.session.otpToken })
@@ -122,7 +121,6 @@ const processMobileAuth = async (req, res) => {
         if (userData) {
             if(userData.is_blocked == 0){
                 const otpToken = await otpHelper.sendOTP(req.body.phone, res);
-                console.log(otpToken)
                 req.session.userData = userData;
                 req.session.otpToken = otpToken;
                 req.session.loginSource = 'otp'
