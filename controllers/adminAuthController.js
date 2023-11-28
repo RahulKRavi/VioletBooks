@@ -151,8 +151,8 @@ const loadListUsers = async(req, res)=>{
 
 const deactivateUser = async(req,res)=>{
     try {
-         await User.findByIdAndUpdate({_id:req.query.id},{$set:{is_blocked:1}})
-         res.redirect('/admin/list-users')
+        await User.findByIdAndUpdate({_id:req.query.id},{$set:{is_blocked:1}})
+        res.redirect('/admin/list-users')
     } catch (error){
         console.log(error.message);
         res.redirect('/admin/error-page')
@@ -161,8 +161,8 @@ const deactivateUser = async(req,res)=>{
 
 const reactivateUser = async(req,res)=>{
     try {
-         await User.findByIdAndUpdate({_id:req.query.id},{$set:{is_blocked:0}})
-         res.redirect('/admin/list-users')
+        await User.findByIdAndUpdate({_id:req.query.id},{$set:{is_blocked:0}})
+        res.redirect('/admin/list-users')
     } catch (error){
         console.log(error.message);
         res.redirect('/admin/error-page')
